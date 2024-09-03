@@ -1,6 +1,31 @@
 import { Props } from "../interfaces/props"
 
 const Table = (props: Props) => {
+    const addItem = () => {
+        props.setValues([
+            ...props.values,
+            {
+                name: '',
+                amount: 0,
+                category: '',
+                dueDate: '',
+                state: ''
+            }
+        ])
+    }
+
+    const handleChangeInputName = (value: string, index: number) => {
+        const newValues = [...props.values]
+        newValues[index].name = value
+        props.setValues(newValues)
+    }
+
+    const handleChangeInputAmount = (value: string, index: number) => {
+        const newValues = [...props.values]
+        newValues[index].amount = parseInt(value)
+        props.setValues(newValues)
+    }
+
     return (
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -29,33 +54,41 @@ const Table = (props: Props) => {
                 </tr>
             </thead>
             <tbody>
-                { props.values.map((item) => (
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                { props.values.map((item, index) => (
+                    <tr key={`item-${index}`} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td className="w-4 p-4">
                             <div className="flex items-center">
                                 <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                 <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
                             </div>
                         </td>
-                        <td className="px-6 py-4">
-                            { item.name }
+                        <td>
+                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.name} onChange={ (e) => handleChangeInputName(e.target.value, index) } />
                         </td>
-                        <td className="px-6 py-4">
-                            { item.amount }
+                        <td>
+                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.amount} onChange={ (e) => handleChangeInputAmount(e.target.value, index) } />
                         </td>
-                        <td className="px-6 py-4">
-                            { item.category }
+                        <td>
+                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]">
+                                <option disabled>Seleccionar</option>
+                                <option value="1">Opción 1</option>
+                                <option value="2">Opción 2</option>
+                            </select>
                         </td>
-                        <td className="px-6 py-4">
-                            { item.dueDate }
+                        <td>
+                            <input type="date" className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]" />
                         </td>
-                        <td className="px-6 py-4">
-                            { item.state }
+                        <td>
+                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]">
+                                <option disabled>Seleccionar</option>
+                                <option value="1">Opción 1</option>
+                                <option value="2">Opción 2</option>
+                            </select>
                         </td>
                     </tr>
                 ))}
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
-                    <td colSpan={6} className="px-6 py-4">
+                    <td colSpan={6} className="px-6 py-4" onClick={ addItem }>
                         + Nuevo elemento
                     </td>
                 </tr>

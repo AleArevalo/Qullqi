@@ -28,8 +28,8 @@ const Purse = () => {
                 Qullqi
             </h1>
             <Summary />
-            <Income values={ incomes } />
-            <Expenses values={ expenses } />
+            <Income values={ incomes } setValues={ setIncome } />
+            <Expenses values={ expenses } setValues={ setExpenses } />
         </main>
     )
 }
