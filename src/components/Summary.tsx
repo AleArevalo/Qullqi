@@ -1,4 +1,4 @@
-const Expenditure = () => {
+const Summary = () => {
     return (
         <div className="top-0 left-0 w-full shadow-md py-4">
             <div className="grid grid-cols-5 gap-4 max-[500px]:grid-cols-1">
@@ -37,4 +37,4 @@ const Expenditure = () => {
     )
 }
 
-export default Expenditure
+export default Summary
