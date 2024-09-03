@@ -1,11 +1,15 @@
+import Expenditure from './components/Expenditure'
+import Table from './components/Table'
+
 import './App.css'
 
-function App() {
+const App = () => {
 
   return (
-    <>
-        <h1>Hello World</h1>
-    </>
+    <main className="w-3/4 mx-auto">
+        <Expenditure />
+        <Table />
+    </main>
   )
 }
 
