@@ -6,21 +6,22 @@ import Expenses from '../components/Expenses'
 import Income from '../components/Income'
 
 const Purse = () => {
-    const [ expenses, setExpenses ] = useState<Movement[]>([])
-    const [ incomes, setIncome ] = useState<Movement[]>([])
+    const [ expenses, setExpenses ] = useState<Movement[]>(() => {
+        return JSON.parse(localStorage.getItem('expenses') || '[]')
+    })
+    const [ income, setIncome ] = useState<Movement[]>(() => {
+        return JSON.parse(localStorage.getItem('income') || '[]')
+    })
 
     useEffect(() => {
-        const dataExpenses = localStorage.getItem('expenses')
-        const dataIncome = localStorage.getItem('income')
-
-        if (dataExpenses) {
-            setExpenses(JSON.parse(dataExpenses))
+        if (expenses) {
+            localStorage.setItem('expenses', JSON.stringify(expenses))
         }
 
-        if (dataIncome) {
-            setIncome(JSON.parse(dataIncome))
+        if (income) {
+            localStorage.setItem('income', JSON.stringify(income))
         }
-    }, [])
+    }, [expenses, income])
 
     return (
         <main className="w-3/4 mx-auto my-8">
@@ -28,7 +29,7 @@ const Purse = () => {
                 Qullqi
             </h1>
             <Summary />
-            <Income values={ incomes } setValues={ setIncome } />
+            <Income values={ income } setValues={ setIncome } />
             <Expenses values={ expenses } setValues={ setExpenses } />
         </main>
     )
