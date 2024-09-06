@@ -1,3 +1,4 @@
+import { Movement } from "../interfaces/movement"
 import { Props } from "../interfaces/props"
 
 const Table = (props: Props) => {
@@ -14,34 +15,10 @@ const Table = (props: Props) => {
         ])
     }
 
-    const handleChangeInputName = (value: string, index: number) => {
-        const newValues = [...props.values]
-        newValues[index].name = value
-        props.setValues(newValues)
-    }
-
-    const handleChangeInputAmount = (value: string, index: number) => {
-        const newValues = [...props.values]
-        newValues[index].amount = parseInt(value)
-        props.setValues(newValues)
-    }
-
-    const handleChangeInputCategory = (value: string, index: number) => {
-        const newValues = [...props.values]
-        newValues[index].category = value
-        props.setValues(newValues)
-    }
-
-    const handleChangeInputDueDate = (value: string, index: number) => {
-        const newValues = [...props.values]
-        newValues[index].dueDate = value
-        props.setValues(newValues)
-    }
-
-    const handleChangeInputState = (value: string, index: number) => {
-        const newValues = [...props.values]
-        newValues[index].state = value
-        props.setValues(newValues)
+    const handleChangeInput = (key: keyof Movement, value: string | number, index: number) => {
+        const newValues = [...props.values];
+        (newValues[index] as any)[key] = value;
+        props.setValues(newValues);
     }
 
     return (
@@ -81,23 +58,23 @@ const Table = (props: Props) => {
                             </div>
                         </td>
                         <td>
-                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.name} onChange={ (e) => handleChangeInputName(e.target.value, index) } />
+                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.name} onChange={ (e) => handleChangeInput('name', e.target.value, index) } />
                         </td>
                         <td>
-                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.amount} onChange={ (e) => handleChangeInputAmount(e.target.value, index) } />
+                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.amount} onChange={ (e) => handleChangeInput('amount', e.target.value, index) } />
                         </td>
                         <td>
-                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInputCategory(e.target.value, index) }>
+                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInput('category', e.target.value, index) }>
                                 <option value="" disabled>Seleccionar</option>
                                 <option value="1">Opción 1</option>
                                 <option value="2">Opción 2</option>
                             </select>
                         </td>
                         <td>
-                            <input type="date" className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]" value={ item.dueDate } onChange={ (e) => handleChangeInputDueDate(e.target.value, index) } />
+                            <input type="date" className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]" value={ item.dueDate } onChange={ (e) => handleChangeInput('dueDate', e.target.value, index) } />
                         </td>
                         <td>
-                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.state } onChange={ (e) => handleChangeInputState(e.target.value, index) }>
+                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.state } onChange={ (e) => handleChangeInput('state', e.target.value, index) }>
                                 <option value="" disabled>Seleccionar</option>
                                 <option value="1">Opción 1</option>
                                 <option value="2">Opción 2</option>
