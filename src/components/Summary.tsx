@@ -1,6 +1,6 @@
 const Summary = () => {
     return (
-        <div className="top-0 left-0 w-full shadow-md py-4">
+        <div className="top-0 left-0 w-full py-4">
             <div className="grid grid-cols-5 gap-4 max-[500px]:grid-cols-1">
                 <div
                     className="group w-full rounded-lg bg-purple-500 p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
