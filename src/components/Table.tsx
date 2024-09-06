@@ -5,6 +5,7 @@ import { Movement } from "../interfaces/movement"
 import { Category } from "../interfaces/category"
 
 const Table = (props: Props) => {
+    const [selectedItems, setSelectedItems] = useState<number[]>([]);
     const [ categories ] = useState<Category[]>([
         { id: 1, name: 'Alquiler' },
         { id: 2, name: 'Compras' },
@@ -50,14 +51,34 @@ const Table = (props: Props) => {
         props.setValues(newValues);
     }
 
+    const handleSelectItem = (index: number) => {
+        if (selectedItems.includes(index)) {
+            setSelectedItems(selectedItems.filter(item => item !== index));
+        } else {
+            setSelectedItems([...selectedItems, index]);
+        }
+    };
+
+    const handleSelectAll = () => {
+        if (selectedItems.length === props.values.length) {
+            setSelectedItems([]);
+        } else {
+            setSelectedItems(props.values.map((_item, index) => index));
+        }
+    };
+
     return (
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" className="p-4">
                         <div className="flex items-center">
-                            <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                            <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
+                            <input
+                                type="checkbox"
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                checked={selectedItems.length === props.values.length}
+                                onChange={handleSelectAll}
+                            />
                         </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -85,15 +106,19 @@ const Table = (props: Props) => {
                     <tr key={`item-${index}`} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td className="w-4 p-4">
                             <div className="flex items-center">
-                                <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
+                                <input
+                                    type="checkbox"
+                                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    checked={selectedItems.includes(index)}
+                                    onChange={() => handleSelectItem(index)}
+                                />
                             </div>
                         </td>
                         <td>
-                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.name} onChange={ (e) => handleChangeInput('name', e.target.value, index) } />
+                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white px-6 w-full h-[50px]" value={ item.name} onChange={ (e) => handleChangeInput('name', e.target.value, index) } maxLength={30} />
                         </td>
                         <td>
-                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.amount} onChange={ (e) => handleChangeInput('amount', e.target.value, index) } />
+                            <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white px-6 w-full h-[50px]" value={ item.amount} onChange={ (e) => handleChangeInput('amount', e.target.value, index) } maxLength={10} />
                         </td>
                         <td>
                             <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInput('category', e.target.value, index) }>
