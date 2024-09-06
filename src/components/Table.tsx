@@ -26,6 +26,24 @@ const Table = (props: Props) => {
         props.setValues(newValues)
     }
 
+    const handleChangeInputCategory = (value: string, index: number) => {
+        const newValues = [...props.values]
+        newValues[index].category = value
+        props.setValues(newValues)
+    }
+
+    const handleChangeInputDueDate = (value: string, index: number) => {
+        const newValues = [...props.values]
+        newValues[index].dueDate = value
+        props.setValues(newValues)
+    }
+
+    const handleChangeInputState = (value: string, index: number) => {
+        const newValues = [...props.values]
+        newValues[index].state = value
+        props.setValues(newValues)
+    }
+
     return (
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -69,18 +87,18 @@ const Table = (props: Props) => {
                             <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.amount} onChange={ (e) => handleChangeInputAmount(e.target.value, index) } />
                         </td>
                         <td>
-                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]">
-                                <option disabled>Seleccionar</option>
+                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInputCategory(e.target.value, index) }>
+                                <option value="" disabled>Seleccionar</option>
                                 <option value="1">Opción 1</option>
                                 <option value="2">Opción 2</option>
                             </select>
                         </td>
                         <td>
-                            <input type="date" className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]" />
+                            <input type="date" className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]" value={ item.dueDate } onChange={ (e) => handleChangeInputDueDate(e.target.value, index) } />
                         </td>
                         <td>
-                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]">
-                                <option disabled>Seleccionar</option>
+                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.state } onChange={ (e) => handleChangeInputState(e.target.value, index) }>
+                                <option value="" disabled>Seleccionar</option>
                                 <option value="1">Opción 1</option>
                                 <option value="2">Opción 2</option>
                             </select>
