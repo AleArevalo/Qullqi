@@ -3,5 +3,6 @@ export interface Movement {
     amount?: number
     category?: string
     dueDate?: string
+    type?: string
     state?: string
 }

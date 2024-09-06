@@ -1,7 +1,35 @@
-import { Movement } from "../interfaces/movement"
+import { useState } from "react"
+
 import { Props } from "../interfaces/props"
+import { Movement } from "../interfaces/movement"
+import { Category } from "../interfaces/category"
 
 const Table = (props: Props) => {
+    const [ categories ] = useState<Category[]>([
+        { id: 1, name: 'Alquiler' },
+        { id: 2, name: 'Compras' },
+        { id: 3, name: 'Comida' },
+        { id: 4, name: 'Créditos' },
+        { id: 5, name: 'Transporte' },
+        { id: 6, name: 'Tarjetas de crédito' },
+        { id: 7, name: 'Ayudas familiares' },
+        { id: 8, name: 'Inversión' },
+        { id: 9, name: 'Viajes' },
+        { id: 10, name: 'Seguros' },
+        { id: 11, name: 'Otros' }
+    ])
+    const [ types ] = useState<Category[]>([
+        { id: 1, name: 'Manual' },
+        { id: 2, name: 'Suscripción' }
+    ])
+    const [ states ] = useState<Category[]>([
+        { id: 1, name: 'Pendiente' },
+        { id: 2, name: 'Pagada' },
+        { id: 3, name: 'Rechazada' },
+        { id: 4, name: 'Anulada' },
+        { id: 5, name: 'Cancelada' }
+    ])
+
     const addItem = () => {
         props.setValues([
             ...props.values,
@@ -10,6 +38,7 @@ const Table = (props: Props) => {
                 amount: 0,
                 category: '',
                 dueDate: '',
+                type: '',
                 state: ''
             }
         ])
@@ -44,6 +73,9 @@ const Table = (props: Props) => {
                         Fecha Vencimiento
                     </th>
                     <th scope="col" className="px-6 py-3">
+                        Tipo
+                    </th>
+                    <th scope="col" className="px-6 py-3">
                         Estado
                     </th>
                 </tr>
@@ -66,24 +98,34 @@ const Table = (props: Props) => {
                         <td>
                             <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInput('category', e.target.value, index) }>
                                 <option value="" disabled>Seleccionar</option>
-                                <option value="1">Opción 1</option>
-                                <option value="2">Opción 2</option>
+                                { categories.map((category) => (
+                                    <option key={ category.id } value={ category.id }>{ category.name }</option>
+                                ))}
                             </select>
                         </td>
                         <td>
                             <input type="date" className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]" value={ item.dueDate } onChange={ (e) => handleChangeInput('dueDate', e.target.value, index) } />
                         </td>
                         <td>
+                            <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.type } onChange={ (e) => handleChangeInput('type', e.target.value, index) }>
+                                <option value="" disabled>Seleccionar</option>
+                                { types.map((type) => (
+                                    <option key={ type.id } value={ type.id }>{ type.name }</option>
+                                ))}
+                            </select>
+                        </td>
+                        <td>
                             <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.state } onChange={ (e) => handleChangeInput('state', e.target.value, index) }>
                                 <option value="" disabled>Seleccionar</option>
-                                <option value="1">Opción 1</option>
-                                <option value="2">Opción 2</option>
+                                { states.map((state) => (
+                                    <option key={ state.id } value={ state.id }>{ state.name }</option>
+                                ))}
                             </select>
                         </td>
                     </tr>
                 ))}
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
-                    <td colSpan={6} className="px-6 py-4" onClick={ addItem }>
+                    <td colSpan={7} className="px-6 py-4" onClick={ addItem }>
                         + Nuevo elemento
                     </td>
                 </tr>
