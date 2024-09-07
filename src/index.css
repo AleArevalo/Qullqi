@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Para navegadores WebKit como Chrome y Safari */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: none;
+}
+
+/* Para evitar un estilo por defecto en IE */
+select::-ms-expand {
+    display: none;
+}
