@@ -7,28 +7,28 @@ import { Category } from "../interfaces/category"
 const Table = (props: Props) => {
     const [ selectedItems, setSelectedItems ] = useState<number[]>([]);
     const [ categories ] = useState<Category[]>([
-        { id: 1, name: 'Alquiler' },
-        { id: 2, name: 'Compras' },
-        { id: 3, name: 'Comida' },
-        { id: 4, name: 'Créditos' },
-        { id: 5, name: 'Transporte' },
-        { id: 6, name: 'Tarjetas de crédito' },
-        { id: 7, name: 'Ayudas familiares' },
-        { id: 8, name: 'Inversión' },
-        { id: 9, name: 'Viajes' },
-        { id: 10, name: 'Seguros' },
-        { id: 11, name: 'Otros' }
+        { id: 1, name: '🚪 Alquiler' },
+        { id: 2, name: '🛍️ Compras' },
+        { id: 3, name: '🍕 Comida' },
+        { id: 4, name: '🏦 Créditos' },
+        { id: 5, name: '🚎 Transporte' },
+        { id: 6, name: '💳 Tarjetas de crédito' },
+        { id: 7, name: '🧑‍🧑‍🧒‍🧒 Ayudas familiares' },
+        { id: 8, name: '📊 Inversión' },
+        { id: 9, name: '✈️ Viajes' },
+        { id: 10, name: '🛡️ Seguros' },
+        { id: 11, name: '💸 Otros' }
     ])
     const [ types ] = useState<Category[]>([
-        { id: 1, name: 'Manual' },
-        { id: 2, name: 'Suscripción' }
+        { id: 1, name: '💵 Manual' },
+        { id: 2, name: '💳 Suscripción' }
     ])
     const [ states ] = useState<Category[]>([
-        { id: 1, name: 'Pendiente' },
-        { id: 2, name: 'Pagada' },
-        { id: 3, name: 'Rechazada' },
-        { id: 4, name: 'Anulada' },
-        { id: 5, name: 'Cancelada' }
+        { id: 1, name: '⌛️ Pendiente' },
+        { id: 2, name: '✅ Pagada' },
+        { id: 3, name: '❌ Rechazada' },
+        { id: 4, name: '🚫 Anulada' },
+        { id: 5, name: '⛔️ Cancelada' }
     ])
 
     const addItem = () => {
