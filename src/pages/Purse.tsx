@@ -6,6 +6,7 @@ import Expenses from '../components/Expenses'
 import Income from '../components/Income'
 
 const Purse = () => {
+    const [ amount ] = useState<number>(10)
     const [ expenses, setExpenses ] = useState<Movement[]>(() => {
         return JSON.parse(localStorage.getItem('expenses') || '[]')
     })
@@ -28,7 +29,12 @@ const Purse = () => {
             <h1 className="text-3xl font-bold text-center text-slate-900 dark:text-white">
                 Qullqi
             </h1>
-            <Summary />
+            <Summary
+                name="Septiembre"
+                amount={ amount }
+                totalIncome={ income.reduce((total, item) => total + (Number(item.amount) || 0), 0) }
+                totalExpenses={ expenses.reduce((total, item) => total + (Number(item.amount) || 0), 0) }
+            />
             <hr className="border-slate-700" />
             <Income values={ income } setValues={ setIncome } />
             <Expenses values={ expenses } setValues={ setExpenses } />
