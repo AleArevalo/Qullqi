@@ -5,6 +5,7 @@ import { Movement } from "../interfaces/movement"
 import { Category } from "../interfaces/category"
 
 const Table = (props: Props) => {
+    const [ textFilter, setTextFilter ] = useState<string>('')
     const [ selectedItems, setSelectedItems ] = useState<number[]>([]);
     const [ categories ] = useState<Category[]>([
         { id: 1, name: '🚪 Alquiler' },
@@ -72,6 +73,12 @@ const Table = (props: Props) => {
         setSelectedItems([]);
     };
 
+    const filterByText = (): Movement[] => {
+        return props.values.filter((item) => {
+            return item?.name?.toLowerCase().includes(textFilter.toLowerCase())
+        })
+    };
+
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
             <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
@@ -92,7 +99,14 @@ const Table = (props: Props) => {
                             <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
-                    <input type="text" id="table-search-users" className="block py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Filtrar por texto" />
+                    <input
+                        type="text"
+                        id="table-search-users"
+                        className="block py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Filtrar por texto"
+                        value={ textFilter }
+                        onChange={ (e) => setTextFilter(e.target.value) }
+                    />
                 </div>
             </div>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -129,7 +143,7 @@ const Table = (props: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    { props.values.map((item, index) => (
+                    { filterByText().map((item, index) => (
                         <tr key={ `item-${ index }` } className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <td className="w-4 p-4">
                                 <div className="flex items-center">
@@ -148,7 +162,7 @@ const Table = (props: Props) => {
                                 <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white px-6 w-full h-[50px]" value={ item.amount} onChange={ (e) => handleChangeInput('amount', e.target.value, index) } maxLength={ 10 } />
                             </td>
                             <td>
-                                <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInput('category', e.target.value, index) }>
+                                <select className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInput('category', e.target.value, index) }>
                                     <option value="" disabled>Seleccionar</option>
                                     { categories.map((category) => (
                                         <option key={ category.id } value={ category.id }>{ category.name }</option>
@@ -159,7 +173,7 @@ const Table = (props: Props) => {
                                 <input type="date" className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]" value={ item.dueDate } onChange={ (e) => handleChangeInput('dueDate', e.target.value, index) } />
                             </td>
                             <td>
-                                <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.type } onChange={ (e) => handleChangeInput('type', e.target.value, index) }>
+                                <select className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]" value={ item.type } onChange={ (e) => handleChangeInput('type', e.target.value, index) }>
                                     <option value="" disabled>Seleccionar</option>
                                     { types.map((type) => (
                                         <option key={ type.id } value={ type.id }>{ type.name }</option>
@@ -167,7 +181,7 @@ const Table = (props: Props) => {
                                 </select>
                             </td>
                             <td>
-                                <select className="bg-white dark:bg-gray-800 text-black dark:text-white w-full h-[50px]" value={ item.state } onChange={ (e) => handleChangeInput('state', e.target.value, index) }>
+                                <select className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]" value={ item.state } onChange={ (e) => handleChangeInput('state', e.target.value, index) }>
                                     <option value="" disabled>Seleccionar</option>
                                     { states.map((state) => (
                                         <option key={ state.id } value={ state.id }>{ state.name }</option>
