@@ -32,8 +32,8 @@ const Purse = () => {
             <Summary
                 name="Septiembre"
                 amount={ amount }
-                totalIncome={ income.reduce((total, item) => total + (Number(item.amount) || 0), 0) }
-                totalExpenses={ expenses.reduce((total, item) => total + (Number(item.amount) || 0), 0) }
+                totalIncome={ income.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
+                totalExpenses={ expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
             />
             <hr className="border-slate-700" />
             <Income values={ income } setValues={ setIncome } />
