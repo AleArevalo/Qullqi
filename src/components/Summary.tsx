@@ -1,15 +1,9 @@
 import { IconCalendarEvent, IconPigMoney, IconCoins, IconBusinessplan, IconWallet } from '@tabler/icons-react'
 
 import { formatMoney } from '../utils/money'
+import { PropsSummary } from '../interfaces/props'
 
-interface Props {
-    name: string
-    amount: number
-    totalIncome: number
-    totalExpenses: number
-}
-
-const Summary = (props: Props) => {
+const Summary = (props: PropsSummary) => {
     return (
         <div className="top-0 left-0 w-full py-4">
             <div className="grid grid-cols-5 gap-4 max-[500px]:grid-cols-1">
@@ -39,7 +33,7 @@ const Summary = (props: Props) => {
                     className="group w-full rounded-lg bg-purple-500 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
                 >
                     <p className="text-white text-2xl font-bold">
-                        { formatMoney(props.totalIncome) }
+                        { formatMoney(props.totalIncomes) }
                     </p>
                     <div className="flex items-center space-x-2">
                         <IconCoins className="text-white" />
@@ -61,7 +55,7 @@ const Summary = (props: Props) => {
                     className="group w-full rounded-lg bg-purple-500 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
                 >
                     <p className="text-white text-2xl font-bold">
-                        { formatMoney(props.amount + props.totalIncome - props.totalExpenses) }
+                        { formatMoney(props.amount + props.totalIncomes - props.totalExpenses) }
                     </p>
                     <div className="flex items-center space-x-2">
                         <IconWallet className="text-white" />

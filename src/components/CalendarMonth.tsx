@@ -2,11 +2,13 @@ import { useState } from 'react';
 
 import { IconChevronLeft, IconChevronRight, IconChevronUp, IconChevronDown } from '@tabler/icons-react';
 
-const Calendar = () => {
+import { PropsHistory } from '../interfaces/props';
+
+const Calendar = (props: PropsHistory) => {
     const [ isTooltipVisible, setTooltipVisible ] = useState(false)
     const [ optionYear, setOptionYear ] = useState(new Date().getFullYear())
-    const [ yearSelected, setYearSelected ] = useState(new Date().getFullYear())
-    const [ monthSelected, setMonthSelected ] = useState(new Date().getMonth())
+    const [ yearSelected, setYearSelected ] = useState(props.yearSelected)
+    const [ monthSelected, setMonthSelected ] = useState(props.monthSelected)
     const [ months ] = useState<string[]>([
         'Ene',
         'Feb',

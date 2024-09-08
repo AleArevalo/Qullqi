@@ -1,29 +1,37 @@
 import { useState, useEffect } from 'react'
 
 import { Movement } from '../interfaces/movement'
+import { Budget } from '../interfaces/budget'
 import History from '../components/History'
 import Summary from '../components/Summary'
 import Expenses from '../components/Expenses'
-import Income from '../components/Income'
+import Incomes from '../components/Incomes'
 
 const Purse = () => {
     const [ amount ] = useState<number>(10)
-    const [ expenses, setExpenses ] = useState<Movement[]>(() => {
-        return JSON.parse(localStorage.getItem('expenses') || '[]')
+    const [ yearSelected, setYearSelected ] = useState(new Date().getFullYear())
+    const [ monthSelected, setMonthSelected ] = useState(new Date().getMonth())
+    const [ budgetMovements ] = useState<Budget[]>(() => {
+        return JSON.parse(localStorage.getItem('budgetMovements') || '[]')
     })
-    const [ income, setIncome ] = useState<Movement[]>(() => {
-        return JSON.parse(localStorage.getItem('income') || '[]')
-    })
+
+    const handleChangeDate = (year: number, month: number) => {
+        setYearSelected(year)
+        setMonthSelected(month)
+    }
+
+    const getIncomesAndExpenses = (): { incomes: Movement[], expenses: Movement[] } => {
+        return {
+            incomes: [],
+            expenses: []
+        }
+    }
 
     useEffect(() => {
-        if (expenses) {
-            localStorage.setItem('expenses', JSON.stringify(expenses))
+        if (budgetMovements) {
+            localStorage.setItem('budgetMovements', JSON.stringify(budgetMovements))
         }
-
-        if (income) {
-            localStorage.setItem('income', JSON.stringify(income))
-        }
-    }, [expenses, income])
+    }, [ budgetMovements ])
 
     return (
         <main className="w-10/12 mx-auto my-8">
@@ -31,17 +39,17 @@ const Purse = () => {
                 Qullqi
             </h1>
             <div className="flex gap-8">
-                <History />
+                <History yearSelected={ yearSelected } monthSelected={ monthSelected } handleChangeDate={ handleChangeDate } />
                 <div className="w-full">
                     <Summary
                         name="Septiembre"
                         amount={ amount }
-                        totalIncome={ income.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
-                        totalExpenses={ expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
+                        totalIncomes={ getIncomesAndExpenses().incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
+                        totalExpenses={ getIncomesAndExpenses().expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
                     />
                     <hr className="border-slate-700" />
-                    <Income values={ income } setValues={ setIncome } />
-                    <Expenses values={ expenses } setValues={ setExpenses } />
+                    <Incomes values={ getIncomesAndExpenses().incomes } />
+                    <Expenses values={ getIncomesAndExpenses().expenses } />
                 </div>
             </div>
         </main>

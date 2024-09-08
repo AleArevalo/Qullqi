@@ -1,9 +1,10 @@
+import { PropsHistory } from "../interfaces/props"
 import CalendarMonth from "./CalendarMonth"
 
-const History = () => {
+const History = (props: PropsHistory) => {
     return (
         <div className="flex flex-col justify-center space-y-4">
-            <CalendarMonth />
+            <CalendarMonth yearSelected={ props.yearSelected } monthSelected={ props.monthSelected } handleChangeDate={ props.handleChangeDate } />
         </div>
     )   
 }

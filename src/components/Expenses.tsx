@@ -3,7 +3,7 @@ import Table from "./Table"
 
 const Expenses = (props: Props) => {
     return (
-        <Table values={ props.values } setValues={ props.setValues } />
+        <Table values={ props.values } />
     )
 }
 
