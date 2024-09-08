@@ -1,5 +1,7 @@
 import { useState } from "react"
 
+import { IconTrashFilled } from "@tabler/icons-react"
+
 import { Props } from "../interfaces/props"
 import { Movement } from "../interfaces/movement"
 import { Category } from "../interfaces/category"
@@ -87,13 +89,10 @@ const Table = (props: Props) => {
             <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
                 <div className="flex items-center space-x-4">
                     { selectedItems.length > 0 &&
-                        <button className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" onClick={ deleteItem }>
-                            Delete
+                        <button className="inline-flex items-center text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1.5" type="button" onClick={ deleteItem }>
+                            <IconTrashFilled />
                         </button>
                     }
-                    <button className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                        Aplicar filtro
-                    </button>
                 </div>
                 <label htmlFor="table-search" className="sr-only">Search</label>
                 <div className="relative">
