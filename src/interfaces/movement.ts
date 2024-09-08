@@ -1,6 +1,6 @@
 export interface Movement {
     name?: string
-    amount?: number
+    amount?: string
     category?: string
     dueDate?: string
     type?: string

@@ -38,7 +38,7 @@ const Table = (props: Props) => {
             ...props.values,
             {
                 name: '',
-                amount: 0,
+                amount: '',
                 category: '',
                 dueDate: '',
                 type: '',
