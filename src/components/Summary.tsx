@@ -14,7 +14,7 @@ const Summary = (props: Props) => {
         <div className="top-0 left-0 w-full py-4">
             <div className="grid grid-cols-5 gap-4 max-[500px]:grid-cols-1">
                 <div
-                    className="group w-full rounded-lg bg-purple-500 p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
+                    className="group w-full rounded-lg bg-purple-500 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
                 >
                     <p className="text-white text-2xl font-bold">
                         { props.name }
@@ -25,7 +25,7 @@ const Summary = (props: Props) => {
                     </div>
                 </div>
                 <div
-                    className="group w-full rounded-lg bg-slate-900 p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_rgb(244,67,54)]"
+                    className="group w-full rounded-lg bg-slate-900 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_rgb(244,67,54)]"
                 >
                     <p className="text-white text-2xl font-bold">
                         { formatMoney(props.amount) }
@@ -36,7 +36,7 @@ const Summary = (props: Props) => {
                     </div>
                 </div>
                 <div
-                    className="group w-full rounded-lg bg-purple-500 p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
+                    className="group w-full rounded-lg bg-purple-500 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
                 >
                     <p className="text-white text-2xl font-bold">
                         { formatMoney(props.totalIncome) }
@@ -47,7 +47,7 @@ const Summary = (props: Props) => {
                     </div>
                 </div>
                 <div
-                    className="group w-full rounded-lg bg-slate-900 p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_rgb(244,67,54)]"
+                    className="group w-full rounded-lg bg-slate-900 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_rgb(244,67,54)]"
                 >
                     <p className="text-white text-2xl font-bold">
                         { formatMoney(props.totalExpenses) }
@@ -58,7 +58,7 @@ const Summary = (props: Props) => {
                     </div>
                 </div>
                 <div
-                    className="group w-full rounded-lg bg-purple-500 p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
+                    className="group w-full rounded-lg bg-purple-500 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
                 >
                     <p className="text-white text-2xl font-bold">
                         { formatMoney(props.amount + props.totalIncome - props.totalExpenses) }
