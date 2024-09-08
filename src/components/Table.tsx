@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Props } from "../interfaces/props"
 import { Movement } from "../interfaces/movement"
 import { Category } from "../interfaces/category"
+import { formatMoneyString } from "../utils/money"
 
 const Table = (props: Props) => {
     const [ textFilter, setTextFilter ] = useState<string>('')
@@ -47,6 +48,8 @@ const Table = (props: Props) => {
     }
 
     const handleChangeInput = (key: keyof Movement, value: string | number, index: number) => {
+        value = key === 'amount' ? formatMoneyString(value as string) : value
+
         const newValues = [...props.values];
         (newValues[index] as any)[key] = value;
         props.setValues(newValues);
@@ -159,7 +162,13 @@ const Table = (props: Props) => {
                                 <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white px-6 w-full h-[50px]" value={ item.name} onChange={ (e) => handleChangeInput('name', e.target.value, index) } maxLength={ 30 } />
                             </td>
                             <td>
-                                <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white px-6 w-full h-[50px]" value={ item.amount} onChange={ (e) => handleChangeInput('amount', e.target.value, index) } maxLength={ 10 } />
+                                <input
+                                    type="text"
+                                    className="bg-white dark:bg-gray-800 text-black dark:text-white px-6 w-full h-[50px]"
+                                    value={ item.amount}
+                                    onChange={ (e) => handleChangeInput('amount', e.target.value, index) }
+                                    maxLength={ 10 }
+                                />
                             </td>
                             <td>
                                 <select className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInput('category', e.target.value, index) }>
