@@ -35,26 +35,12 @@ const Table = (props: Props) => {
         { id: 5, name: '⛔️ Cancelada' }
     ])
 
-    const addItem = () => {
-        props.setValues([
-            ...props.values,
-            {
-                name: '',
-                amount: '',
-                category: '',
-                dueDate: '',
-                type: '',
-                state: ''
-            }
-        ])
-    }
-
     const handleChangeInput = (key: keyof Movement, value: string | number, index: number) => {
         value = key === 'amount' ? formatMoneyString(value as string) : value
 
         const newValues = [...props.values];
         (newValues[index] as any)[key] = value;
-        props.setValues(newValues);
+        props.setValues(2, 'tipo', newValues[index]);
     }
 
     const handleSelectItem = (index: number) => {
@@ -74,7 +60,7 @@ const Table = (props: Props) => {
     };
 
     const deleteItem = () => {
-        props.setValues(props.values.filter((_item, index) => !selectedItems.includes(index)));
+        props.deleteValues(3, 'tipo')
         setSelectedItems([]);
     };
 
@@ -199,7 +185,7 @@ const Table = (props: Props) => {
                         </tr>
                     ))}
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
-                        <td colSpan={ 7 } className="px-6 py-4" onClick={ addItem }>
+                        <td colSpan={ 7 } className="px-6 py-4" onClick={ () => props.addValues(props.type) }>
                             + Nuevo elemento
                         </td>
                     </tr>

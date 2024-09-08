@@ -1,7 +1,11 @@
 import { Movement } from "./movement";
 
 export interface Props {
+    type: string
     values: Movement[]
+    addValues: (type: string) => void
+    setValues: (index: number, type: string, movement: Movement) => void
+    deleteValues: (index: number, type: string) => void
 }
 
 export interface PropsHistory {
