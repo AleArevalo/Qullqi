@@ -166,6 +166,10 @@ const Purse = () => {
         }
     }
 
+    const getNameMonth = (): string => {
+        return new Date(yearSelected, monthSelected).toLocaleString('default', { month: 'long' }).toUpperCase()
+    }
+
     useEffect(() => {
         if (budgetMovements) {
             localStorage.setItem('budgetMovements', JSON.stringify(budgetMovements))
@@ -181,7 +185,8 @@ const Purse = () => {
                 <History yearSelected={ yearSelected } monthSelected={ monthSelected } handleChangeDate={ handleChangeDate } />
                 <div className="w-full">
                     <Summary
-                        name="Septiembre"
+                        name={ getNameMonth() }
+                        subName={ yearSelected }
                         amount={ getAvailableBalance() }
                         totalIncomes={ getIncomesAndExpenses().incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
                         totalExpenses={ getIncomesAndExpenses().expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }

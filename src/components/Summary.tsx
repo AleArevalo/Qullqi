@@ -15,7 +15,7 @@ const Summary = (props: PropsSummary) => {
                     </p>
                     <div className="flex items-center space-x-2">
                         <IconCalendarEvent className="text-white" />
-                        <p className="text-white text-sm">Nombre</p>
+                        <p className="text-white text-sm">{ props.subName }</p>
                     </div>
                 </div>
                 <div

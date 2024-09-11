@@ -16,6 +16,7 @@ export interface PropsHistory {
 
 export interface PropsSummary {
     name: string
+    subName: string | number
     amount: number
     totalIncomes: number
     totalExpenses: number
