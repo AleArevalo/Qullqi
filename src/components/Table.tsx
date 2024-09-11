@@ -11,17 +11,20 @@ const Table = (props: Props) => {
     const [ textFilter, setTextFilter ] = useState<string>('')
     const [ selectedItems, setSelectedItems ] = useState<number[]>([]);
     const [ categories ] = useState<Category[]>([
-        { id: 1, name: '🚪 Alquiler' },
-        { id: 2, name: '🛍️ Compras' },
-        { id: 3, name: '🍕 Comida' },
-        { id: 4, name: '🏦 Créditos' },
-        { id: 5, name: '🚎 Transporte' },
-        { id: 6, name: '💳 Tarjetas de crédito' },
-        { id: 7, name: '🧑‍🧑‍🧒‍🧒 Ayudas familiares' },
-        { id: 8, name: '📊 Inversión' },
-        { id: 9, name: '✈️ Viajes' },
-        { id: 10, name: '🛡️ Seguros' },
-        { id: 11, name: '💸 Otros' }
+        { id: 1, name: '🚪 Alquiler', type: 'expenses' },
+        { id: 2, name: '🛍️ Compras', type: 'expenses' },
+        { id: 3, name: '🍕 Comida', type: 'expenses' },
+        { id: 4, name: '🏦 Créditos', type: 'expenses' },
+        { id: 5, name: '🚎 Transporte', type: 'expenses' },
+        { id: 6, name: '💳 Tarjetas de crédito', type: 'expenses' },
+        { id: 7, name: '🧑‍🧑‍🧒‍🧒 Ayudas familiares', type: 'expenses' },
+        { id: 8, name: '📊 Inversión', type: 'expenses' },
+        { id: 9, name: '✈️ Viajes', type: 'expenses' },
+        { id: 10, name: '🛡️ Seguros', type: 'expenses' },
+        { id: 11, name: '💸 Otros', type: 'expenses' },
+        { id: 12, name: '💰 Sueldo', type: 'incomes' },
+        { id: 13, name: '🚪 Alquiler', type: 'incomes' },
+        { id: 14, name: '👨🏻‍💻 Freelance', type: 'incomes' }
     ])
     const [ types ] = useState<Category[]>([
         { id: 1, name: '💵 Manual' },
@@ -158,7 +161,7 @@ const Table = (props: Props) => {
                             <td>
                                 <select className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInput('category', e.target.value, index) }>
                                     <option value="" disabled>Seleccionar</option>
-                                    { categories.map((category) => (
+                                    { categories.filter((category) => category.type === props.type).map((category) => (
                                         <option key={ category.id } value={ category.id }>{ category.name }</option>
                                     ))}
                                 </select>
