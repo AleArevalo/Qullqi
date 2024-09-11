@@ -19,16 +19,19 @@ const Purse = () => {
     }
 
     const getAvailableBalance = (): number => {
-        const index = budgetMovements.findIndex( (budget) => budget.month === (monthSelected - 1) && budget.year === yearSelected)
+        const previousMonthIndex = budgetMovements.findIndex( (budget) => budget.month === (monthSelected - 1) && budget.year === yearSelected)
 
-        if (index >= 0) {
-            const incomes = budgetMovements[index].incomes
-            const expenses = budgetMovements[index].expenses
-
-            return incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) - expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0)
-        } else {
+        if (previousMonthIndex === -1) {
             return 0
         }
+
+        const incomes = budgetMovements[previousMonthIndex].incomes
+        const expenses = budgetMovements[previousMonthIndex].expenses
+
+        const incomesBalance = incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0)
+        const expensesBalance = expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0)
+
+        return incomesBalance - expensesBalance
     }
 
     const getIncomesAndExpenses = (): { incomes: Movement[], expenses: Movement[] } => {
