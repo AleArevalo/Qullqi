@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { Movement } from '../interfaces/movement'
 import { Budget } from '../interfaces/budget'
+import Controller from '../components/Controller'
 import History from '../components/History'
 import Summary from '../components/Summary'
 import Table from '../components/Table'
@@ -181,6 +182,7 @@ const Purse = () => {
             <div className="flex gap-8">
                 <History yearSelected={ yearSelected } monthSelected={ monthSelected } handleChangeDate={ handleChangeDate } />
                 <div className="w-full">
+                    <Controller />
                     <Summary
                         name={ getNameMonth() }
                         subName={ yearSelected }
