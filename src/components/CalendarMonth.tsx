@@ -28,10 +28,21 @@ const Calendar = (props: PropsHistory) => {
       setTooltipVisible(!isTooltipVisible)
     }
 
+    const handleChangeDate = (year: number, month: number, isTooltipVisible: boolean = false) => {
+        setYearSelected(year)
+        setMonthSelected(month)
+
+        if (isTooltipVisible === true) {
+            toggleTooltip()
+        }
+
+        props.handleChangeDate(year, month)
+    }
+
     return (
         <div className="relative">
             <div className="flex flex-col items-center space-y-4">
-                <button onClick={() => setMonthSelected(monthSelected - 1)} disabled={ monthSelected === 0 }>
+                <button onClick={() => handleChangeDate(yearSelected, monthSelected - 1)} disabled={ monthSelected === 0 }>
                     <IconChevronUp className={monthSelected === 0 ? 'text-gray-600' : 'text-white'} />
                 </button>
                 <button
@@ -40,7 +51,7 @@ const Calendar = (props: PropsHistory) => {
                 >
                     { months[monthSelected] } { yearSelected }
                 </button>
-                <button onClick={() => setMonthSelected(monthSelected + 1)} disabled={ monthSelected === 11 }>
+                <button onClick={() => handleChangeDate(yearSelected, monthSelected + 1)} disabled={ monthSelected === 11 }>
                     <IconChevronDown className={monthSelected === 11 ? 'text-gray-600' : 'text-white'} />
                 </button>
             </div>
@@ -61,11 +72,7 @@ const Calendar = (props: PropsHistory) => {
                             <button
                                 key={ index }
                                 className={`${monthSelected === index ? 'bg-purple-500' : 'bg-gray-800 hover:bg-gray-700'} text-white px-2 py-2 rounded`}
-                                onClick={ () => {
-                                    setMonthSelected(index)
-                                    setYearSelected(optionYear)
-                                    toggleTooltip()
-                                }}
+                                onClick={ () => handleChangeDate(optionYear, index, true) }
                             >
                                 { month }
                             </button>
