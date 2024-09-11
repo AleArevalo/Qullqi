@@ -7,7 +7,6 @@ import Summary from '../components/Summary'
 import Table from '../components/Table'
 
 const Purse = () => {
-    const [ amount ] = useState<number>(10)
     const [ yearSelected, setYearSelected ] = useState(new Date().getFullYear())
     const [ monthSelected, setMonthSelected ] = useState(new Date().getMonth())
     const [ budgetMovements, setBudgetMovements ] = useState<Budget[]>(() => {
@@ -17,6 +16,19 @@ const Purse = () => {
     const handleChangeDate = (year: number, month: number) => {
         setYearSelected(year)
         setMonthSelected(month)
+    }
+
+    const getAvailableBalance = (): number => {
+        const index = budgetMovements.findIndex( (budget) => budget.month === (monthSelected - 1) && budget.year === yearSelected)
+
+        if (index >= 0) {
+            const incomes = budgetMovements[index].incomes
+            const expenses = budgetMovements[index].expenses
+
+            return incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) - expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0)
+        } else {
+            return 0
+        }
     }
 
     const getIncomesAndExpenses = (): { incomes: Movement[], expenses: Movement[] } => {
@@ -167,7 +179,7 @@ const Purse = () => {
                 <div className="w-full">
                     <Summary
                         name="Septiembre"
-                        amount={ amount }
+                        amount={ getAvailableBalance() }
                         totalIncomes={ getIncomesAndExpenses().incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
                         totalExpenses={ getIncomesAndExpenses().expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
                     />
