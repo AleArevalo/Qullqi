@@ -121,7 +121,17 @@ const Purse = () => {
     }
 
     const updateBudgetMovement = (index: number, type: string, movement: Movement) => {
-        console.log('ingreso: ', index, type, movement)
+        if (budgetMovements.length === 0) {
+            return
+        }
+
+        const indexUpdateBudget = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
+
+        if (indexUpdateBudget >= 0) {
+            budgetMovements[indexUpdateBudget][type as 'incomes' | 'expenses'][index] = movement
+
+            setBudgetMovements([ ...budgetMovements ])
+        }
     }
 
     const deleteBudgetMovement = (values: number[], type: string) => {

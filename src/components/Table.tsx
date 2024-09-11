@@ -35,13 +35,12 @@ const Table = (props: Props) => {
         { id: 5, name: '⛔️ Cancelada' }
     ])
 
-    // TODO: refactor
     const handleChangeInput = (key: keyof Movement, value: string | number, index: number) => {
         value = key === 'amount' ? formatMoneyString(value as string) : value
 
         const newValues = [...props.values];
         (newValues[index] as any)[key] = value;
-        props.setValues(2, 'tipo', newValues[index]);
+        props.setValues(index, props.type, newValues[index]);
     }
 
     const handleSelectItem = (index: number) => {
