@@ -43,40 +43,40 @@ const Calendar = (props: PropsHistory) => {
         <div className="relative">
             <div className="flex flex-col items-center space-y-4">
                 <button onClick={() => handleChangeDate(yearSelected, monthSelected - 1)} disabled={ monthSelected === 0 }>
-                    <IconChevronUp className={monthSelected === 0 ? 'text-gray-600' : 'text-white hover:text-gray-400'} />
+                    <IconChevronUp className={monthSelected === 0 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400'} />
                 </button>
                 <button
                     onClick={ toggleTooltip }
-                    className="text-white hover:text-gray-400"
+                    className="dark:text-white hover:text-gray-400"
                 >
                     { months[monthSelected] } { yearSelected }
                 </button>
                 <button onClick={() => handleChangeDate(yearSelected, monthSelected + 1)} disabled={ monthSelected === 11 }>
-                    <IconChevronDown className={monthSelected === 11 ? 'text-gray-600' : 'text-white hover:text-gray-400'} />
+                    <IconChevronDown className={monthSelected === 11 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400'} />
                 </button>
             </div>
 
             { isTooltipVisible && (
-                <div className="absolute z-10 bottom-3/4 mb-2 left-1/2 transform -translate-x-1/2 w-48 bg-gray-800 text-white border-2 border-gray-600 text-sm rounded-lg py-2 px-3">
+                <div className="absolute z-10 bottom-3/4 mb-2 left-1/2 transform -translate-x-1/2 w-48 bg-gray-200 dark:bg-gray-800 text-white border-2 border-gray-600 text-sm rounded-lg py-2 px-3">
                     <div className="flex justify-between mb-2">
                         <button onClick={ () => setOptionYear(optionYear - 1) }>
-                            <IconChevronLeft className="text-white" />
+                            <IconChevronLeft className="text-black dark:text-white" />
                         </button>
                         <input
                             type="text"
-                            className="w-1/2 bg-transparent text-center"
+                            className="w-1/2 bg-transparent text-center text-black dark:text-white"
                             value={ optionYear }
                             onChange={ (e) => setOptionYear(Number(e.target.value)) }
                         />
                         <button onClick={ () => setOptionYear(optionYear + 1) }>
-                            <IconChevronRight className="text-white" />
+                            <IconChevronRight className="text-black dark:text-white" />
                         </button>
                     </div>
                     <div>
                         { months.map((month, index) => (
                             <button
                                 key={ index }
-                                className={`${monthSelected === index ? 'bg-purple-500' : 'bg-gray-800 hover:bg-gray-700'} text-white px-2 py-2 rounded`}
+                                className={`${monthSelected === index ? 'bg-purple-500 text-white' : 'hover:bg-gray-300 dark:hover:bg-gray-700'} text-black dark:text-white px-2 py-2 rounded`}
                                 onClick={ () => handleChangeDate(optionYear, index, true) }
                             >
                                 { month }
