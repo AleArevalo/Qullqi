@@ -43,16 +43,16 @@ const Calendar = (props: PropsHistory) => {
         <div className="relative">
             <div className="flex flex-col items-center space-y-4">
                 <button onClick={() => handleChangeDate(yearSelected, monthSelected - 1)} disabled={ monthSelected === 0 }>
-                    <IconChevronUp className={monthSelected === 0 ? 'text-gray-600' : 'text-white'} />
+                    <IconChevronUp className={monthSelected === 0 ? 'text-gray-600' : 'text-white hover:text-gray-400'} />
                 </button>
                 <button
                     onClick={ toggleTooltip }
-                    className="text-white"
+                    className="text-white hover:text-gray-400"
                 >
                     { months[monthSelected] } { yearSelected }
                 </button>
                 <button onClick={() => handleChangeDate(yearSelected, monthSelected + 1)} disabled={ monthSelected === 11 }>
-                    <IconChevronDown className={monthSelected === 11 ? 'text-gray-600' : 'text-white'} />
+                    <IconChevronDown className={monthSelected === 11 ? 'text-gray-600' : 'text-white hover:text-gray-400'} />
                 </button>
             </div>
 
@@ -62,7 +62,12 @@ const Calendar = (props: PropsHistory) => {
                         <button onClick={ () => setOptionYear(optionYear - 1) }>
                             <IconChevronLeft className="text-white" />
                         </button>
-                        <input type="text" className="w-1/2 bg-transparent text-center" value={ optionYear } onChange={ (e) => setOptionYear(Number(e.target.value)) } />
+                        <input
+                            type="text"
+                            className="w-1/2 bg-transparent text-center"
+                            value={ optionYear }
+                            onChange={ (e) => setOptionYear(Number(e.target.value)) }
+                        />
                         <button onClick={ () => setOptionYear(optionYear + 1) }>
                             <IconChevronRight className="text-white" />
                         </button>
