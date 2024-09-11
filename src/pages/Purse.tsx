@@ -124,8 +124,21 @@ const Purse = () => {
         console.log('ingreso: ', index, type, movement)
     }
 
-    const deleteBudgetMovement = (index: number, type: string) => {
-        console.log('ingreso: DELETE', index, type)
+    const deleteBudgetMovement = (values: number[], type: string) => {
+        if (budgetMovements.length === 0) {
+            return
+        }
+
+        const indexUpdateBudget = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
+
+        if (indexUpdateBudget >= 0) {
+            const typeMovements = budgetMovements[indexUpdateBudget][type as 'incomes' | 'expenses']
+            const newTypeMovements = typeMovements.filter((_, index) => !values.includes(index))
+
+            budgetMovements[indexUpdateBudget][type as 'incomes' | 'expenses'] = newTypeMovements
+
+            setBudgetMovements([ ...budgetMovements ])
+        }
     }
 
     useEffect(() => {

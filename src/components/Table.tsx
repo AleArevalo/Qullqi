@@ -35,6 +35,7 @@ const Table = (props: Props) => {
         { id: 5, name: '⛔️ Cancelada' }
     ])
 
+    // TODO: refactor
     const handleChangeInput = (key: keyof Movement, value: string | number, index: number) => {
         value = key === 'amount' ? formatMoneyString(value as string) : value
 
@@ -49,7 +50,7 @@ const Table = (props: Props) => {
         } else {
             setSelectedItems([...selectedItems, index]);
         }
-    };
+    }
 
     const handleSelectAll = () => {
         if (selectedItems.length === props.values.length) {
@@ -57,18 +58,18 @@ const Table = (props: Props) => {
         } else {
             setSelectedItems(props.values.map((_item, index) => index));
         }
-    };
+    }
 
     const deleteItem = () => {
-        props.deleteValues(3, 'tipo')
+        props.deleteValues(selectedItems, props.type)
         setSelectedItems([]);
-    };
+    }
 
     const filterByText = (): Movement[] => {
         return props.values.filter((item) => {
             return item?.name?.toLowerCase().includes(textFilter.toLowerCase())
         })
-    };
+    }
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">

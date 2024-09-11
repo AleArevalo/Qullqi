@@ -5,7 +5,7 @@ export interface Props {
     values: Movement[]
     addValues: (type: string) => void
     setValues: (index: number, type: string, movement: Movement) => void
-    deleteValues: (index: number, type: string) => void
+    deleteValues: (values: number[], type: string) => void
 }
 
 export interface PropsHistory {
