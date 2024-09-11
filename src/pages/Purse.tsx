@@ -177,10 +177,7 @@ const Purse = () => {
     }, [ budgetMovements ])
 
     return (
-        <main className="w-10/12 mx-auto my-8">
-            <h1 className="text-3xl font-bold text-center text-slate-900 dark:text-white">
-                Qullqi
-            </h1>
+        <main className="w-10/12 mx-auto">
             <div className="flex gap-8">
                 <History yearSelected={ yearSelected } monthSelected={ monthSelected } handleChangeDate={ handleChangeDate } />
                 <div className="w-full">
