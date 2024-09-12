@@ -2,32 +2,17 @@ import { IconCalendarDown, IconCircleDashedCheck, IconTimelineEventX, IconTrashX
 import Swal from "sweetalert2"
 
 import { PropsController } from "../interfaces/props";
+import { ToastSwal } from "../utils/swal-custom";
 
 const Controller = (props: PropsController) => {
     const handleChangeCurrentDate = () => {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            customClass: {
-                popup: 'rounded-3xl'
-            },
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true
-        });
+        const date = new Date()
+        const month = date.toLocaleString('default', { month: 'long' }).toUpperCase()
+        const year = date.getFullYear()
 
-        (async () => {
-            const date = new Date()
-            const month = date.toLocaleString('default', { month: 'long' }).toUpperCase()
-            const year = date.getFullYear()
+        ToastSwal('success', `Fecha actualizada: ${month} ${year}`)
 
-            props.changeDate(year, date.getMonth())
-
-            await Toast.fire({
-                icon: 'success',
-                title: `${month} ${year}`
-            })
-        })()
+        props.changeDate(year, date.getMonth())
     }
 
     const handleSetDefault = () => {

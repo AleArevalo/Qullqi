@@ -6,6 +6,7 @@ import Controller from '../components/Controller'
 import History from '../components/History'
 import Summary from '../components/Summary'
 import Table from '../components/Table'
+import { ToastSwal } from '../utils/swal-custom'
 
 const Purse = () => {
     const [ yearSelected, setYearSelected ] = useState(new Date().getFullYear())
@@ -175,6 +176,8 @@ const Purse = () => {
         setBudgetMovements([])
 
         handleChangeDate(new Date().getFullYear(), new Date().getMonth())
+
+        ToastSwal('success', 'Todas las hojas eliminadas')
     }
 
     const handleSetDefaultBudget = () => {
@@ -182,6 +185,8 @@ const Purse = () => {
 
         if (getCurrentBudgetMovement) {
             localStorage.setItem('currentBudget', JSON.stringify(getCurrentBudgetMovement))
+
+            ToastSwal('success', 'Hoja predeterminada establecida')
         }
     }
 
@@ -193,6 +198,8 @@ const Purse = () => {
             budgetMovements[indexUpdateBudget].expenses = []
 
             setBudgetMovements([ ...budgetMovements ])
+
+            ToastSwal('success', 'Hoja actual eliminada')
         }
     }
 
