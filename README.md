@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+# Qullqi
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Qullqi es una herramienta de gestión de presupuesto en línea que permite crear y gestionar hojas de presupuesto para diferentes meses y años.
 
-Currently, two official plugins are available:
+## ¿Cómo funciona?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Suma todos los ingresos y gastos de un mes y año particular para proporcionar el presupuesto total, manteniendo tu saldo para el próximo mes.
 
-## Expanding the ESLint configuration
+## Funcionalidades
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Crear, editar y eliminar presupuestos:** Maneja tus presupuestos con facilidad.
+- **Visualización de presupuestos:** Observa tus presupuestos en tablas y gráficos para un mejor análisis.
+- **Establecimiento de bases:** Configura una base para futuros presupuestos.
+- **Gestión de presupuestos:** Maneja tus presupuestos de forma local o sincronizados con la nube.
+- **Exportación/Importación:** Exporta a e importa desde archivos JSON o Excel.
+- **Compartir presupuestos:** Comparte tus presupuestos con otros usuarios en la nube.
+- **Recomendaciones de IA:** Comparte tus presupuestos con la AI para obtener recomendaciones de salud financiera.
 
-- Configure the top-level `parserOptions` property like this:
+## Instalación
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+El proyecto está construido con React, TypeScript, Vite, Tailwind CSS, ESLint, Prettier y Bun.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+1. Clona el repositorio.
+2. Instala las dependencias con `bun install`.
+3. Ejecuta el proyecto con `bun run dev` para desarrollo o `bun run preview` para pruebas.
+4. Compila el proyecto con `bun run build` para producción.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Contribución
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- Envía un pull request con tus cambios.
+- Será revisado y aprobado por un miembro del equipo.
+
+## Próximas Funcionalidades
+
+- Gestión de presupuesto de otros usuarios.
+- Gestión de presupuestos en la nube.
+- Gestión de presupuestos de forma remota.
+- Gestión de presupuestos locales.
+- Sincronización de presupuestos.
+- Sincronización de presupuestos con la nube.
+
+## Licencia
+
+Qullqi es un proyecto de código abierto bajo la licencia MIT. Puedes ver el código fuente y contribuir en él.
