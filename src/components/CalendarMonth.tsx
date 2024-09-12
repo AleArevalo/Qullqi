@@ -7,8 +7,6 @@ import { PropsHistory } from '../interfaces/props';
 const Calendar = (props: PropsHistory) => {
     const [ isTooltipVisible, setTooltipVisible ] = useState(false)
     const [ optionYear, setOptionYear ] = useState(new Date().getFullYear())
-    const [ yearSelected, setYearSelected ] = useState(props.yearSelected)
-    const [ monthSelected, setMonthSelected ] = useState(props.monthSelected)
     const [ months ] = useState<string[]>([
         'Ene',
         'Feb',
@@ -29,9 +27,6 @@ const Calendar = (props: PropsHistory) => {
     }
 
     const handleChangeDate = (year: number, month: number, isTooltipVisible: boolean = false) => {
-        setYearSelected(year)
-        setMonthSelected(month)
-
         if (isTooltipVisible === true) {
             toggleTooltip()
         }
@@ -42,17 +37,17 @@ const Calendar = (props: PropsHistory) => {
     return (
         <div className="relative">
             <div className="flex flex-col items-center space-y-4">
-                <button onClick={() => handleChangeDate(yearSelected, monthSelected - 1)} disabled={ monthSelected === 0 }>
-                    <IconChevronUp className={monthSelected === 0 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400'} />
+                <button onClick={ () => handleChangeDate(props.yearSelected, props.monthSelected - 1) } disabled={ props.monthSelected === 0 }>
+                    <IconChevronUp className={ props.monthSelected === 0 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400' } />
                 </button>
                 <button
                     onClick={ toggleTooltip }
                     className="dark:text-white hover:text-gray-400"
                 >
-                    { months[monthSelected] } { yearSelected }
+                    { months[props.monthSelected] } { props.yearSelected }
                 </button>
-                <button onClick={() => handleChangeDate(yearSelected, monthSelected + 1)} disabled={ monthSelected === 11 }>
-                    <IconChevronDown className={monthSelected === 11 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400'} />
+                <button onClick={ () => handleChangeDate(props.yearSelected, props.monthSelected + 1)} disabled={ props.monthSelected === 11 }>
+                    <IconChevronDown className={ props.monthSelected === 11 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400'} />
                 </button>
             </div>
 
@@ -76,7 +71,7 @@ const Calendar = (props: PropsHistory) => {
                         { months.map((month, index) => (
                             <button
                                 key={ index }
-                                className={`${monthSelected === index ? 'bg-purple-500 text-white' : 'hover:bg-gray-300 dark:hover:bg-gray-700'} text-black dark:text-white px-2 py-2 rounded`}
+                                className={ `${ props.monthSelected === index ? 'bg-purple-500 text-white' : 'hover:bg-gray-300 dark:hover:bg-gray-700' } text-black dark:text-white px-2 py-2 rounded` }
                                 onClick={ () => handleChangeDate(optionYear, index, true) }
                             >
                                 { month }
