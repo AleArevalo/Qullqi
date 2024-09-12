@@ -21,3 +21,10 @@ export interface PropsSummary {
     totalIncomes: number
     totalExpenses: number
 }
+
+export interface PropsController {
+    changeDate: (year: number, month: number) => void
+    setDefaultBudget: () => void
+    removeCurrentBudget: () => void
+    removeAllBudget: () => void
+}

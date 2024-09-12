@@ -171,6 +171,31 @@ const Purse = () => {
         return new Date(yearSelected, monthSelected).toLocaleString('default', { month: 'long' }).toUpperCase()
     }
 
+    const handleRemoveAllBudget = () => {
+        setBudgetMovements([])
+
+        handleChangeDate(new Date().getFullYear(), new Date().getMonth())
+    }
+
+    const handleSetDefaultBudget = () => {
+        const getCurrentBudgetMovement = budgetMovements.find((budget) => budget.month === monthSelected && budget.year === yearSelected)
+
+        if (getCurrentBudgetMovement) {
+            localStorage.setItem('currentBudget', JSON.stringify(getCurrentBudgetMovement))
+        }
+    }
+
+    const handleRemoveCurrentBudget = () => {
+        const indexUpdateBudget = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
+
+        if (indexUpdateBudget >= 0) {
+            budgetMovements[indexUpdateBudget].incomes = []
+            budgetMovements[indexUpdateBudget].expenses = []
+
+            setBudgetMovements([ ...budgetMovements ])
+        }
+    }
+
     useEffect(() => {
         if (budgetMovements) {
             localStorage.setItem('budgetMovements', JSON.stringify(budgetMovements))
@@ -180,9 +205,18 @@ const Purse = () => {
     return (
         <main className="w-10/12 mx-auto">
             <div className="flex gap-8">
-                <History yearSelected={ yearSelected } monthSelected={ monthSelected } handleChangeDate={ handleChangeDate } />
+                <History
+                    yearSelected={ yearSelected }
+                    monthSelected={ monthSelected }
+                    handleChangeDate={ handleChangeDate }
+                />
                 <div className="w-full">
-                    <Controller />
+                    <Controller
+                        changeDate={ handleChangeDate }
+                        setDefaultBudget={ handleSetDefaultBudget }
+                        removeCurrentBudget={ handleRemoveCurrentBudget }
+                        removeAllBudget={ handleRemoveAllBudget }
+                    />
                     <Summary
                         name={ getNameMonth() }
                         subName={ yearSelected }

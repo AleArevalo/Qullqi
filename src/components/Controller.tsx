@@ -1,9 +1,10 @@
 import { IconCalendarDown, IconCircleDashedCheck, IconTimelineEventX, IconTrashX } from "@tabler/icons-react"
 import Swal from "sweetalert2"
 
-const Controller = () => {
+import { PropsController } from "../interfaces/props";
+
+const Controller = (props: PropsController) => {
     const handleChangeCurrentDate = () => {
-        // TODO: change current date
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -19,6 +20,8 @@ const Controller = () => {
             const date = new Date()
             const month = date.toLocaleString('default', { month: 'long' }).toUpperCase()
             const year = date.getFullYear()
+
+            props.changeDate(year, date.getMonth())
 
             await Toast.fire({
                 icon: 'success',
@@ -43,7 +46,7 @@ const Controller = () => {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                // TODO: set default budget movement
+                props.setDefaultBudget()
             }
         })
     }
@@ -64,7 +67,7 @@ const Controller = () => {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                // TODO: delete current budget movement
+                props.removeCurrentBudget()
             }
         })
     }
@@ -85,7 +88,7 @@ const Controller = () => {
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                // TODO: delete all budget movements
+                props.removeAllBudget()
             }
         })
     }
