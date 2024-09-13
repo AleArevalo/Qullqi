@@ -212,11 +212,6 @@ const Purse = () => {
     return (
         <main className="w-10/12 mx-auto">
             <div className="flex gap-8">
-                <History
-                    yearSelected={ yearSelected }
-                    monthSelected={ monthSelected }
-                    handleChangeDate={ handleChangeDate }
-                />
                 <div className="w-full">
                     <Controller
                         changeDate={ handleChangeDate }
@@ -247,6 +242,11 @@ const Purse = () => {
                         deleteValues={ deleteBudgetMovement }
                     />
                 </div>
+                <History
+                    yearSelected={ yearSelected }
+                    monthSelected={ monthSelected }
+                    handleChangeDate={ handleChangeDate }
+                />
             </div>
         </main>
     )
