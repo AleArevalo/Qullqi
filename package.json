@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "bun run index.ts"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.14.0",
