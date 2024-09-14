@@ -1,20 +1,21 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode, useState } from "react"
 
-import { AuthContext } from './AuthContext'
+import { AuthContext } from "./AuthContext"
 
 // Proveedor del contexto
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [ token, setToken ] = useState<string | null>(() => {
-        return localStorage.getItem('token') || null
+        return localStorage.getItem("token") || null
     })
 
     const login = (useToken: string) => {
-        localStorage.setItem('token', useToken)
+        localStorage.setItem("token", useToken)
         setToken(useToken)
     }
 
     const logout = () => {
-        localStorage.removeItem('token')
+        localStorage.removeItem("budgetMovements")
+        localStorage.removeItem("token")
         setToken(null)
     }
 
