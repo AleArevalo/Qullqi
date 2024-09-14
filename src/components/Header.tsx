@@ -1,12 +1,17 @@
 import { IconCloud, IconCloudX } from "@tabler/icons-react"
 
+import { useAuth } from "../hooks/useAuth"
+
 const Header = () => {
+    const { token, login, logout } = useAuth()
+
     const handleLogin = () => {
-        // TODO: handle click cloud
+        // TODO: handle click cloud and set token
+        login('')
     }
 
     const handleLogout = () => {
-        // TODO: handle click cloud x
+        logout()
     }
 
     return (
@@ -16,12 +21,15 @@ const Header = () => {
             </h1>
             <div className="col-start-3 content-center px-4">
                 <div className="flex gap-4 justify-end">
-                    <button className="text-black dark:text-white" onClick={ handleLogin }>
-                        <IconCloud />
-                    </button>
-                    <button className="text-black dark:text-white" onClick={ handleLogout }>
-                        <IconCloudX />
-                    </button>
+                    { token ?
+                        <button className="text-black dark:text-white" onClick={ handleLogout }>
+                            <IconCloudX />
+                        </button>
+                        :
+                        <button className="text-black dark:text-white" onClick={ handleLogin }>
+                            <IconCloud />
+                        </button>
+                    }
                 </div>
             </div>
         </div>
