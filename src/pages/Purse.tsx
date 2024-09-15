@@ -46,7 +46,6 @@ const Purse = () => {
     const addBudgetMovement = (type: string) => {
         if (budgetMovements.length === 0) {
             const newBudgetMovement: Budget = {
-                name: `${monthSelected} ${yearSelected}`,
                 month: monthSelected,
                 year: yearSelected,
                 incomes: [],
@@ -105,7 +104,6 @@ const Purse = () => {
                 setBudgetMovements([ ...budgetMovements ])
             } else {
                 const newBudgetMovement: Budget = {
-                    name: `${monthSelected} ${yearSelected}`,
                     month: monthSelected,
                     year: yearSelected,
                     incomes: [],
