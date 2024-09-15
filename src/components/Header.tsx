@@ -5,9 +5,10 @@ import Swal from "sweetalert2"
 
 import { useAuth } from "../hooks/useAuth"
 import { supabase } from "../libs/supabase"
+import { ToastSwal } from "../utils/swal-custom"
 
 const Header = () => {
-    const { token,login, logout } = useAuth()
+    const { token, login, logout } = useAuth()
 
     const handleLogin = async () => {
         Swal.fire({
@@ -98,7 +99,9 @@ const Header = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 if (result.value.session) {
-                    login(result.value.session.access_token)
+                    login(result.value.session.access_token, result.value.session.user.id)
+
+                    ToastSwal('success', 'Sesión iniciada con éxito')
                 }
             }
         })
@@ -112,7 +115,7 @@ const Header = () => {
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                login(session.access_token)
+                login(session.access_token, session.user.id)
             }
         })
 
@@ -120,7 +123,7 @@ const Header = () => {
           data: { subscription },
         } = supabase.auth.onAuthStateChange((_event, session) => {
             if (session) {
-                login(session.access_token)
+                login(session.access_token, session.user.id)
             }
         })
 
