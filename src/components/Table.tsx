@@ -9,7 +9,7 @@ import { formatMoneyString } from "../utils/money"
 
 const Table = (props: Props) => {
     const [ textFilter, setTextFilter ] = useState<string>('')
-    const [ selectedItems, setSelectedItems ] = useState<number[]>([]);
+    const [ selectedItems, setSelectedItems ] = useState<number[]>([])
     const [ categories ] = useState<Category[]>([
         { id: 1, name: '🚪 Alquiler', type: 'expenses' },
         { id: 2, name: '🛍️ Compras', type: 'expenses' },
@@ -37,38 +37,55 @@ const Table = (props: Props) => {
         { id: 4, name: '🚫 Anulada' },
         { id: 5, name: '⛔️ Cancelada' }
     ])
+    const [ arrayMovement, setArrayMovement ] = useState<Movement[]>(props.values)
 
     const handleChangeInput = (key: keyof Movement, value: string | number, index: number) => {
         value = key === 'amount' ? formatMoneyString(value as string) : value
 
         const newValues = [...props.values];
-        (newValues[index] as any)[key] = value;
-        props.setValues(index, props.type, newValues[index]);
+        (newValues[index] as any)[key] = value
+        props.setValues(index, props.type, newValues[index])
     }
 
     const handleSelectItem = (index: number) => {
         if (selectedItems.includes(index)) {
-            setSelectedItems(selectedItems.filter(item => item !== index));
+            setSelectedItems(selectedItems.filter(item => item !== index))
         } else {
-            setSelectedItems([...selectedItems, index]);
+            setSelectedItems([...selectedItems, index])
         }
     }
 
     const handleSelectAll = () => {
         if (selectedItems.length === props.values.length) {
-            setSelectedItems([]);
+            setSelectedItems([])
         } else {
-            setSelectedItems(props.values.map((_item, index) => index));
+            setSelectedItems(props.values.map((_item, index) => index))
         }
     }
 
     const deleteItem = () => {
+        const arrayFiltered = arrayMovement.filter((_, index) => !selectedItems.includes(index))
         props.deleteValues(selectedItems, props.type)
-        setSelectedItems([]);
+        setArrayMovement(arrayFiltered)
+        setSelectedItems([])
+    }
+
+    const handleNewItem = () => {
+        const newMovement: Movement = {
+            id: '',
+            name: '',
+            amount: '',
+            category: '',
+            dueDate: '',
+            type: '',
+            state: ''
+        }
+        props.addValues(props.type)
+        setArrayMovement([ ...arrayMovement, newMovement ])
     }
 
     const filterByText = (): Movement[] => {
-        return props.values.filter((item) => {
+        return arrayMovement.filter((item) => {
             return item?.name?.toLowerCase().includes(textFilter.toLowerCase())
         })
     }
@@ -188,7 +205,7 @@ const Table = (props: Props) => {
                         </tr>
                     ))}
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
-                        <td colSpan={ 7 } className="px-6 py-4" onClick={ () => props.addValues(props.type) }>
+                        <td colSpan={ 7 } className="px-6 py-4" onClick={ handleNewItem }>
                             + Nuevo elemento
                         </td>
                     </tr>
