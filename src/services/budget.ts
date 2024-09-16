@@ -45,3 +45,24 @@ export const createMovement = async (idBudget: string, type: string, movement: M
         data
     }
 }
+
+export const updateMovement = async (idMovement: string, movement: Movement): Promise<Response> => {
+    const { data, error } = await supabase
+        .from('Movement')
+        .update({
+            name: movement.name,
+            amount: movement.amount,
+            category: movement.category,
+            dueDate: movement.dueDate,
+            type: movement.type,
+            state: movement.state
+        })
+        .eq('id', idMovement)
+        .select()
+
+    return {
+        success: !error,
+        message: error ? 'Ocurrió un error al actualizar el movimiento' : 'Movimiento actualizado correctamente',
+        data
+    }
+}

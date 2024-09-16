@@ -8,7 +8,7 @@ import Summary from '../components/Summary'
 import Table from '../components/Table'
 import { ToastSwal } from '../utils/swal-custom'
 import { useAuth } from '../hooks/useAuth'
-import { createBudget, createMovement } from '../services/budget'
+import { createBudget, createMovement, updateMovement } from '../services/budget'
 
 const Purse = () => {
     const { idUser } = useAuth()
@@ -161,7 +161,7 @@ const Purse = () => {
         return ''
     }
 
-    const updateBudgetMovement = (index: number, type: string, movement: Movement) => {
+    const updateBudgetMovement = async (index: number, type: string, movement: Movement) => {
         if (budgetMovements.length === 0) {
             return
         }
@@ -172,6 +172,14 @@ const Purse = () => {
             budgetMovements[indexUpdateBudget][type as 'incomes' | 'expenses'][index] = movement
 
             setBudgetMovements([ ...budgetMovements ])
+
+            if (idUser) {
+                const { success, message } = await updateMovement(movement.id ?? '', movement)
+    
+                if (!success) {
+                    ToastSwal('error', message)
+                }
+            }
         }
     }
 
