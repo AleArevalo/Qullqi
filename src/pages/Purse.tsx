@@ -7,8 +7,12 @@ import History from '../components/History'
 import Summary from '../components/Summary'
 import Table from '../components/Table'
 import { ToastSwal } from '../utils/swal-custom'
+import { useAuth } from '../hooks/useAuth'
+import { createBudget, createMovement } from '../services/budget'
 
 const Purse = () => {
+    const { idUser } = useAuth()
+
     const [ yearSelected, setYearSelected ] = useState(new Date().getFullYear())
     const [ monthSelected, setMonthSelected ] = useState(new Date().getMonth())
     const [ budgetMovements, setBudgetMovements ] = useState<Budget[]>(() => {
@@ -43,94 +47,112 @@ const Purse = () => {
         }
     }
 
-    const addBudgetMovement = (type: string) => {
+    const addBudgetMovement = async (type: string) => {
         if (budgetMovements.length === 0) {
+            const idBudget = await getNewIDBudget()
             const newBudgetMovement: Budget = {
+                id: idBudget,
                 month: monthSelected,
                 year: yearSelected,
                 incomes: [],
                 expenses: []
             }
+            const newMovement = {
+                name: '',
+                amount: '',
+                category: '',
+                dueDate: '',
+                type: '',
+                state: ''
+            }
 
             if (type === 'incomes') {
-                newBudgetMovement.incomes.push({
-                    name: '',
-                    amount: '',
-                    category: '',
-                    dueDate: '',
-                    type: '',
-                    state: ''
-                })
+                newBudgetMovement.incomes.push(newMovement)
             } else {
-                newBudgetMovement.expenses.push({
-                    name: '',
-                    amount: '',
-                    category: '',
-                    dueDate: '',
-                    type: '',
-                    state: ''
-                })
+                newBudgetMovement.expenses.push(newMovement)
             }
 
             setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
+
+            setNewMovement(idBudget, type, newMovement)
         } else {
             const index = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
 
             if (index >= 0) {
                 const newBudgetMovement = budgetMovements[index]
+                const newMovement = {
+                    name: '',
+                    amount: '',
+                    category: '',
+                    dueDate: '',
+                    type: '',
+                    state: ''
+                }
 
                 if (type === 'incomes') {
-                    newBudgetMovement.incomes.push({
-                        name: '',
-                        amount: '',
-                        category: '',
-                        dueDate: '',
-                        type: '',
-                        state: ''
-                    })
+                    newBudgetMovement.incomes.push(newMovement)
                 } else {
-                    newBudgetMovement.expenses.push({
-                        name: '',
-                        amount: '',
-                        category: '',
-                        dueDate: '',
-                        type: '',
-                        state: ''
-                    })
+                    newBudgetMovement.expenses.push(newMovement)
                 }
 
                 budgetMovements[index] = newBudgetMovement
 
                 setBudgetMovements([ ...budgetMovements ])
+
+                setNewMovement(newBudgetMovement.id, type, newMovement)
             } else {
+                const idBudget = await getNewIDBudget()
                 const newBudgetMovement: Budget = {
+                    id: idBudget,
                     month: monthSelected,
                     year: yearSelected,
                     incomes: [],
                     expenses: []
                 }
+                const newMovement = {
+                    name: '',
+                    amount: '',
+                    category: '',
+                    dueDate: '',
+                    type: '',
+                    state: ''
+                }
 
                 if (type === 'incomes') {
-                    newBudgetMovement.incomes.push({
-                        name: '',
-                        amount: '',
-                        category: '',
-                        dueDate: '',
-                        type: '',
-                        state: ''
-                    })
+                    newBudgetMovement.incomes.push(newMovement)
                 } else {
-                    newBudgetMovement.expenses.push({
-                        name: '',
-                        amount: '',
-                        category: '',
-                        dueDate: '',
-                        type: '',
-                        state: ''
-                    })
+                    newBudgetMovement.expenses.push(newMovement)
                 }
 
                 setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
+
+                setNewMovement(newBudgetMovement.id, type, newMovement)
+            }
+        }
+    }
+
+    const getNewIDBudget = async (): Promise<string> => {
+        if (idUser) {
+            const { success, message, data } = await createBudget(idUser, monthSelected, yearSelected)
+
+            if (!success) {
+                ToastSwal('error', message)
+            }
+
+            if (data) {
+                return data[0].id ?? ''
+            }
+        }
+
+        return ''
+    }
+
+    const setNewMovement = async (idBudget: string, type: string, movement: Movement) => {
+        if (idUser) {
+            const { success, message } = await createMovement(idBudget, type, movement)
+
+            if (!success) {
+                ToastSwal('error', message)
             }
         }
     }
