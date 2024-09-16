@@ -5,7 +5,6 @@ import Swal from "sweetalert2"
 
 import { useAuth } from "../hooks/useAuth"
 import { supabase } from "../libs/supabase"
-import { ToastSwal } from "../utils/swal-custom"
 
 const Header = () => {
     const { token, login, logout } = useAuth()
@@ -99,9 +98,9 @@ const Header = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 if (result.value.session) {
-                    login(result.value.session.access_token, result.value.session.user.id)
+                    Swal.fire('Sesión iniciada', 'Has iniciado sesión con éxito. Estamos sincronizando tus datos con la nube.', 'success')
 
-                    ToastSwal('success', 'Sesión iniciada con éxito')
+                    login(result.value.session.access_token, result.value.session.user.id)
                 }
             }
         })
