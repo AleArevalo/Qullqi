@@ -49,15 +49,15 @@ const Purse = () => {
 
     const addBudgetMovement = async (type: string) => {
         if (budgetMovements.length === 0) {
-            const idBudget = await getNewIDBudget()
             const newBudgetMovement: Budget = {
-                id: idBudget,
+                id: await getNewIDBudget(),
                 month: monthSelected,
                 year: yearSelected,
                 incomes: [],
                 expenses: []
             }
             const newMovement = {
+                id: '',
                 name: '',
                 amount: '',
                 category: '',
@@ -65,6 +65,7 @@ const Purse = () => {
                 type: '',
                 state: ''
             }
+            newMovement.id = await setNewMovement(newBudgetMovement.id, type, newMovement)
 
             if (type === 'incomes') {
                 newBudgetMovement.incomes.push(newMovement)
@@ -73,14 +74,13 @@ const Purse = () => {
             }
 
             setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
-
-            setNewMovement(idBudget, type, newMovement)
         } else {
             const index = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
 
             if (index >= 0) {
                 const newBudgetMovement = budgetMovements[index]
                 const newMovement = {
+                    id: '',
                     name: '',
                     amount: '',
                     category: '',
@@ -88,6 +88,7 @@ const Purse = () => {
                     type: '',
                     state: ''
                 }
+                newMovement.id = await setNewMovement(newBudgetMovement.id, type, newMovement)
 
                 if (type === 'incomes') {
                     newBudgetMovement.incomes.push(newMovement)
@@ -98,18 +99,16 @@ const Purse = () => {
                 budgetMovements[index] = newBudgetMovement
 
                 setBudgetMovements([ ...budgetMovements ])
-
-                setNewMovement(newBudgetMovement.id, type, newMovement)
             } else {
-                const idBudget = await getNewIDBudget()
                 const newBudgetMovement: Budget = {
-                    id: idBudget,
+                    id: await getNewIDBudget(),
                     month: monthSelected,
                     year: yearSelected,
                     incomes: [],
                     expenses: []
                 }
                 const newMovement = {
+                    id: '',
                     name: '',
                     amount: '',
                     category: '',
@@ -117,6 +116,7 @@ const Purse = () => {
                     type: '',
                     state: ''
                 }
+                newMovement.id = await setNewMovement(newBudgetMovement.id, type, newMovement)
 
                 if (type === 'incomes') {
                     newBudgetMovement.incomes.push(newMovement)
@@ -125,8 +125,6 @@ const Purse = () => {
                 }
 
                 setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
-
-                setNewMovement(newBudgetMovement.id, type, newMovement)
             }
         }
     }
@@ -147,14 +145,20 @@ const Purse = () => {
         return ''
     }
 
-    const setNewMovement = async (idBudget: string, type: string, movement: Movement) => {
+    const setNewMovement = async (idBudget: string, type: string, movement: Movement): Promise<string> => {
         if (idUser) {
-            const { success, message } = await createMovement(idBudget, type, movement)
+            const { success, message, data } = await createMovement(idBudget, type, movement)
 
             if (!success) {
                 ToastSwal('error', message)
             }
+
+            if (data) {
+                return data[0].id ?? ''
+            }
         }
+
+        return ''
     }
 
     const updateBudgetMovement = (index: number, type: string, movement: Movement) => {
