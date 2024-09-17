@@ -1,5 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 
+import { debounce } from 'lodash'
 import { IconTrashFilled } from "@tabler/icons-react"
 
 import { Props } from "../interfaces/props"
@@ -39,12 +40,21 @@ const Table = (props: Props) => {
     ])
     const [ arrayMovement, setArrayMovement ] = useState<Movement[]>(props.values)
 
+    // Creamos una función debounced para llamar a onValorChange
+    const debouncedOnChange = useCallback(
+        debounce((index: number, value: Movement) => {
+            props.setValues(index, props.type, value)
+        }, 500), // Ajusta el retraso según sea necesario
+        [ props.values ]
+    )
+
     const handleChangeInput = (key: keyof Movement, value: string | number, index: number) => {
         value = key === 'amount' ? formatMoneyString(value as string) : value
 
         const newValues = [...props.values];
         (newValues[index] as any)[key] = value
-        props.setValues(index, props.type, newValues[index])
+        setArrayMovement([ ...newValues ])
+        debouncedOnChange(index, newValues[index]) // Llama a la función debounced
     }
 
     const handleSelectItem = (index: number) => {
@@ -89,6 +99,13 @@ const Table = (props: Props) => {
             return item?.name?.toLowerCase().includes(textFilter.toLowerCase())
         })
     }
+
+    // Limpiamos la función debounced al desmontar el componente
+    useEffect(() => {
+        return () => {
+            debouncedOnChange.cancel()
+        }
+    }, [ debouncedOnChange ])
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
