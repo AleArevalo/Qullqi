@@ -38,7 +38,7 @@ const Table = (props: Props) => {
         { id: 4, name: '🚫 Anulada' },
         { id: 5, name: '⛔️ Cancelada' }
     ])
-    const [ arrayMovement, setArrayMovement ] = useState<Movement[]>(props.values)
+    const [ arrayMovement, setArrayMovement ] = useState<Movement[]>([])
 
     // Creamos una función debounced para llamar a onValorChange
     const debouncedOnChange = useCallback(
@@ -106,6 +106,10 @@ const Table = (props: Props) => {
             debouncedOnChange.cancel()
         }
     }, [ debouncedOnChange ])
+
+    useEffect(() => {
+        setArrayMovement(props.values)
+    }, [ props.values ])
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
