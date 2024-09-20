@@ -66,3 +66,16 @@ export const updateMovement = async (idMovement: string, movement: Movement): Pr
         data
     }
 }
+
+export const removeMovement = async (idMovements: number[]): Promise<Response> => {
+    const { data, error } = await supabase
+        .from('Movement')
+        .delete()
+        .in('id', idMovements)
+
+    return {
+        success: !error,
+        message: error ? 'Ocurrió un error al eliminar el movimiento' : 'Movimiento eliminado correctamente',
+        data
+    }
+}
