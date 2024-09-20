@@ -67,6 +67,77 @@ export const updateMovement = async (idMovement: string, movement: Movement): Pr
     }
 }
 
+export const getAllBudgets = async (idUser: string): Promise<Response> => {
+    const { data, error } = await supabase
+        .from('Budget')
+        .select("*")
+        .eq('id_user', idUser)
+        .order('month')
+        .order('year')
+
+    if (error) {
+        return {
+            success: !error,
+            message: error ? 'Ocurrió un error al obtener los movimientos' : 'Movimientos obtenidos correctamente',
+            data: []
+        }
+    }
+
+    const { data: movements, error: movementsError } = await supabase
+        .from('Movement')
+        .select("*")
+        .in('id_budget', data.map((budget: any) => budget.id))
+        .order('id_budget')
+
+    if (movementsError) {
+        return {
+            success: !movementsError,
+            message: movementsError ? 'Ocurrió un error al obtener los movimientos' : 'Movimientos obtenidos correctamente',
+            data: []
+        }
+    }
+
+    const budgets = data.map((budget: any) => {
+        return {
+            id: budget.id,
+            month: budget.month,
+            year: budget.year,
+            incomes: movements.map((income: any) => {
+                if (income.id_budget === budget.id && income.type_budget === 1) {
+                    return {
+                        id: income.id,
+                        name: income.name,
+                        amount: income.amount,
+                        category: income.category,
+                        dueDate: income.dueDate,
+                        type: income.type,
+                        state: income.state
+                    }
+                }
+            }),
+            expenses: movements.map((expense: any) => {
+                if (expense.id_budget === budget.id && expense.type_budget === 2) {
+                    return {
+                        id: expense.id,
+                        name: expense.name,
+                        amount: expense.amount,
+                        category: expense.category,
+                        dueDate: expense.dueDate,
+                        type: expense.type,
+                        state: expense.state
+                    }
+                }
+            })
+        }
+    })
+
+    return {
+        success: !error,
+        message: error ? 'Ocurrió un error al obtener los movimientos' : 'Movimientos obtenidos correctamente',
+        data: budgets
+    }
+}
+
 export const removeMovement = async (idMovements: number[]): Promise<Response> => {
     const { data, error } = await supabase
         .from('Movement')

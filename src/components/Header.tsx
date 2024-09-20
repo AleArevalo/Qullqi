@@ -5,9 +5,11 @@ import Swal from "sweetalert2"
 
 import { useAuth } from "../hooks/useAuth"
 import { supabase } from "../libs/supabase"
+import { getAllBudgets } from "../services/budget"
+import { ToastSwal } from "../utils/swal-custom"
 
 const Header = () => {
-    const { token, login, logout } = useAuth()
+    const { token, login, logout, idUser } = useAuth()
 
     const handleLogin = async () => {
         Swal.fire({
@@ -96,14 +98,33 @@ const Header = () => {
                 return session
             }
         }).then((result) => {
+            console.log("🚀 ~ verifyCode ~ result:", result)
             if (result.isConfirmed) {
-                if (result.value.session) {
-                    Swal.fire('Sesión iniciada', 'Has iniciado sesión con éxito. Estamos sincronizando tus datos con la nube.', 'success')
+                if (result.value.user) {
+                    ToastSwal('success', 'Sesión iniciada con éxito. Estamos sincronizando tus datos con la nube.')
 
-                    login(result.value.session.access_token, result.value.session.user.id)
+                    login(result.value.access_token, result.value.user.id)
+
+                    loadAllBudgets(result.value.user.id)
                 }
             }
         })
+    }
+
+    const loadAllBudgets = async (userId: string) => {
+        console.log("🚀 ~ loadAllBudgets ~ idUser:", idUser)
+        if (userId) {
+            const { success, message, data } = await getAllBudgets(userId)
+    
+            if (!success) {
+                ToastSwal('error', message)
+            }
+
+            if (data) {
+                localStorage.setItem('budgetMovements', JSON.stringify(data))
+                ToastSwal('success', 'Movimientos actualizados correctamente')
+            }
+        }
     }
 
     const handleLogout = async () => {
