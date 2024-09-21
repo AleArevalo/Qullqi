@@ -9,7 +9,7 @@ import { getAllBudgets } from "../services/budget"
 import { ToastSwal } from "../utils/swal-custom"
 
 const Header = () => {
-    const { token, login, logout, idUser } = useAuth()
+    const { token, login, logout } = useAuth()
 
     const handleLogin = async () => {
         Swal.fire({
@@ -98,7 +98,6 @@ const Header = () => {
                 return session
             }
         }).then((result) => {
-            console.log("🚀 ~ verifyCode ~ result:", result)
             if (result.isConfirmed) {
                 if (result.value.user) {
                     ToastSwal('success', 'Sesión iniciada con éxito. Estamos sincronizando tus datos con la nube.')
@@ -112,7 +111,6 @@ const Header = () => {
     }
 
     const loadAllBudgets = async (userId: string) => {
-        console.log("🚀 ~ loadAllBudgets ~ idUser:", idUser)
         if (userId) {
             const { success, message, data } = await getAllBudgets(userId)
     
@@ -123,6 +121,7 @@ const Header = () => {
             if (data) {
                 localStorage.setItem('budgetMovements', JSON.stringify(data))
                 ToastSwal('success', 'Movimientos actualizados correctamente')
+                location.reload()
             }
         }
     }
@@ -136,6 +135,10 @@ const Header = () => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
                 login(session.access_token, session.user.id)
+
+                if (token) {
+                    loadAllBudgets(session.user.id)
+                }
             }
         })
 
@@ -144,6 +147,10 @@ const Header = () => {
         } = supabase.auth.onAuthStateChange((_event, session) => {
             if (session) {
                 login(session.access_token, session.user.id)
+
+                if (token) {
+                    loadAllBudgets(session.user.id)
+                }
             }
         })
 
