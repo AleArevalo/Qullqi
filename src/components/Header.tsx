@@ -162,8 +162,8 @@ const Header = () => {
             <h1 className="col-start-2 text-3xl font-bold text-center text-slate-900 dark:text-white my-6">
                 Qullqi
             </h1>
-            <div className="col-start-3 content-center px-4">
-                <div className="flex gap-4 justify-end">
+            <div className="col-start-3 content-center sm:px-4">
+                <div className="flex sm:gap-4 sm:justify-end">
                     { token ?
                         <button className="flex text-purple-500 dark:text-purple-600" onClick={ handleLogout }>
                             <IconLogout />

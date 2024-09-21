@@ -251,7 +251,7 @@ const Purse = () => {
 
     return (
         <main className="w-10/12 mx-auto mb-6">
-            <div className="flex gap-8">
+            <div className="sm:flex sm:gap-8">
                 <div className="w-full">
                     <Controller
                         changeDate={ handleChangeDate }
