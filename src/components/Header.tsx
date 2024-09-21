@@ -163,11 +163,12 @@ const Header = () => {
                 Qullqi
             </h1>
             <div className="col-start-3 content-center sm:px-4">
-                <div className="flex sm:gap-4 sm:justify-end">
+                <div className="flex sm:gap-4 justify-center sm:justify-end">
                     { token ?
                         <button className="flex text-purple-500 dark:text-purple-600" onClick={ handleLogout }>
                             <IconLogout />
-                            <span className="ms-2">Cerrar sesión</span>
+                            <span className="hidden sm:block ms-2">Cerrar sesión</span>
+                            <span className="block sm:hidden ms-2">Salir</span>
                         </button>
                         :
                         <button className="flex text-purple-500 hover:text-purple-600" onClick={ handleLogin }>
