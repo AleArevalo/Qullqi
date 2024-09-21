@@ -52,7 +52,7 @@ const Summary = (props: PropsSummary) => {
                     </div>
                 </div>
                 <div
-                    className="group w-full rounded-lg bg-slate-900 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_rgb(244,67,54)]"
+                    className="group w-full rounded-lg bg-purple-500 sm:bg-slate-900 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_rgb(244,67,54)]"
                 >
                     <p className="text-white text-2xl font-bold">
                         { formatMoney(props.totalExpenses) }
@@ -63,7 +63,7 @@ const Summary = (props: PropsSummary) => {
                     </div>
                 </div>
                 <div
-                    className="group w-full rounded-lg bg-purple-500 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
+                    className="group w-full rounded-lg bg-slate-900 sm:bg-purple-500 p-4 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]"
                 >
                     <p className="text-white text-2xl font-bold">
                         { formatMoney(props.amount + props.totalIncomes - props.totalExpenses) }
