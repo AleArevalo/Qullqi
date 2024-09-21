@@ -102,30 +102,26 @@ export const getAllBudgets = async (idUser: string): Promise<Response> => {
             id: budget.id,
             month: budget.month,
             year: budget.year,
-            incomes: movements.map((income: any) => {
-                if (income.id_budget === budget.id && income.type_budget === 1) {
-                    return {
-                        id: income.id,
-                        name: income.name,
-                        amount: income.amount,
-                        category: income.category,
-                        dueDate: income.dueDate,
-                        type: income.type,
-                        state: income.state
-                    }
+            incomes: movements.filter((income) => income.id_budget === budget.id && income.type_budget === 1).map((income: any) => {
+                return {
+                    id: income.id,
+                    name: income.name,
+                    amount: income.amount,
+                    category: income.category,
+                    dueDate: income.dueDate,
+                    type: income.type,
+                    state: income.state
                 }
             }),
-            expenses: movements.map((expense: any) => {
-                if (expense.id_budget === budget.id && expense.type_budget === 2) {
-                    return {
-                        id: expense.id,
-                        name: expense.name,
-                        amount: expense.amount,
-                        category: expense.category,
-                        dueDate: expense.dueDate,
-                        type: expense.type,
-                        state: expense.state
-                    }
+            expenses: movements.filter((expense) => expense.id_budget === budget.id && expense.type_budget === 2).map((expense: any) => {
+                return {
+                    id: expense.id,
+                    name: expense.name,
+                    amount: expense.amount,
+                    category: expense.category,
+                    dueDate: expense.dueDate,
+                    type: expense.type,
+                    state: expense.state
                 }
             })
         }
