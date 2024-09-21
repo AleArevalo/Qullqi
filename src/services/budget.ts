@@ -134,7 +134,7 @@ export const getAllBudgets = async (idUser: string): Promise<Response> => {
     }
 }
 
-export const removeMovement = async (idMovements: number[]): Promise<Response> => {
+export const removeMovement = async (idMovements: string[]): Promise<Response> => {
     const { data, error } = await supabase
         .from('Movement')
         .delete()

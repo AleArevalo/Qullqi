@@ -183,7 +183,7 @@ const Purse = () => {
         }
     }
 
-    const deleteBudgetMovement = async (values: number[], type: string) => {
+    const deleteBudgetMovement = async (values: string[], type: string) => {
         if (budgetMovements.length === 0) {
             return
         }
@@ -192,7 +192,7 @@ const Purse = () => {
 
         if (indexUpdateBudget >= 0) {
             const typeMovements = budgetMovements[indexUpdateBudget][type as 'incomes' | 'expenses']
-            const newTypeMovements = typeMovements.filter((_, index) => !values.includes(index))
+            const newTypeMovements = typeMovements.filter((item) => !values.includes(item.id))
 
             budgetMovements[indexUpdateBudget][type as 'incomes' | 'expenses'] = newTypeMovements
 

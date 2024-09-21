@@ -10,7 +10,7 @@ import { formatMoneyString } from "../utils/money"
 
 const Table = (props: Props) => {
     const [ textFilter, setTextFilter ] = useState<string>('')
-    const [ selectedItems, setSelectedItems ] = useState<number[]>([])
+    const [ selectedItems, setSelectedItems ] = useState<string[]>([])
     const [ categories ] = useState<Category[]>([
         { id: 1, name: '🚪 Alquiler', type: 'expenses' },
         { id: 2, name: '🛍️ Compras', type: 'expenses' },
@@ -64,7 +64,7 @@ const Table = (props: Props) => {
         debouncedOnChange(index, newValues[index]) // Llama a la función debounced
     }
 
-    const handleSelectItem = (index: number) => {
+    const handleSelectItem = (index: string) => {
         if (selectedItems.includes(index)) {
             setSelectedItems(selectedItems.filter(item => item !== index))
         } else {
@@ -76,12 +76,12 @@ const Table = (props: Props) => {
         if (selectedItems.length === props.values.length) {
             setSelectedItems([])
         } else {
-            setSelectedItems(props.values.map((_item, index) => index))
+            setSelectedItems(props.values.map((item) => item.id))
         }
     }
 
     const deleteItem = () => {
-        const arrayFiltered = arrayMovement.filter((_, index) => !selectedItems.includes(index))
+        const arrayFiltered = arrayMovement.filter((item) => !selectedItems.includes(item.id))
         props.deleteValues(selectedItems, props.type)
         setArrayMovement(arrayFiltered)
         setSelectedItems([])
@@ -186,8 +186,8 @@ const Table = (props: Props) => {
                                     <input
                                         type="checkbox"
                                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                        checked={ selectedItems.includes(index) }
-                                        onChange={ () => handleSelectItem(index) }
+                                        checked={ selectedItems.includes(item.id) }
+                                        onChange={ () => handleSelectItem(item.id) }
                                     />
                                 </div>
                             </td>
