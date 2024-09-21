@@ -120,7 +120,7 @@ const Table = (props: Props) => {
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-            <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 p-4 bg-white dark:bg-gray-900">
+            <div className="flex gap-4 items-center justify-between p-4 bg-white dark:bg-gray-900">
                 <div className="flex items-center space-x-4">
                     { selectedItems.length > 0 &&
                         <button className="inline-flex items-center text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1.5" type="button" onClick={ deleteItem }>
