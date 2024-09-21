@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 
 import { debounce } from 'lodash'
-import { IconTrashFilled } from "@tabler/icons-react"
+import { IconPlus, IconTrashFilled } from "@tabler/icons-react"
 
 import { Props } from "../interfaces/props"
 import { Movement } from "../interfaces/movement"
@@ -226,8 +226,11 @@ const Table = (props: Props) => {
                         </tr>
                     ))}
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
-                        <td colSpan={ 7 } className="px-6 py-4" onClick={ handleNewItem }>
-                            + Nuevo elemento
+                        <td colSpan={ 7 } onClick={ handleNewItem }>
+                            <div className="flex gap-2 px-6 py-4">
+                                <IconPlus width={ 20 } height={ 20 } />
+                                Nuevo elemento
+                            </div>
                         </td>
                     </tr>
                 </tbody>
