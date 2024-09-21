@@ -87,7 +87,7 @@ export const getAllBudgets = async (idUser: string): Promise<Response> => {
         .from('Movement')
         .select("*")
         .in('id_budget', data.map((budget: any) => budget.id))
-        .order('id_budget')
+        .order('created_at')
 
     if (movementsError) {
         return {
