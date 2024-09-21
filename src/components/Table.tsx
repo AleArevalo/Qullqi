@@ -192,12 +192,18 @@ const Table = (props: Props) => {
                                 </div>
                             </td>
                             <td>
-                                <input type="text" className="bg-white dark:bg-gray-800 text-black dark:text-white px-6 w-full h-[50px]" value={ item.name} onChange={ (e) => handleChangeInput('name', e.target.value, index) } maxLength={ 30 } />
+                                <input
+                                    type="text"
+                                    className="bg-white dark:bg-gray-800 text-black dark:text-white px-2 sm:px-6 w-full h-[50px]"
+                                    value={ item.name}
+                                    onChange={ (e) => handleChangeInput('name', e.target.value, index) }
+                                    maxLength={ 30 }
+                                />
                             </td>
                             <td>
                                 <input
                                     type="text"
-                                    className="bg-white dark:bg-gray-800 text-black dark:text-white px-6 w-full h-[50px]"
+                                    className="bg-white dark:bg-gray-800 text-black dark:text-white px-2 sm:px-6 w-full h-[50px]"
                                     value={ item.amount}
                                     onChange={ (e) => handleChangeInput('amount', e.target.value, index) }
                                     maxLength={ 10 }
@@ -212,10 +218,19 @@ const Table = (props: Props) => {
                                 </select>
                             </td>
                             <td>
-                                <input type="date" className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]" value={ item.dueDate } onChange={ (e) => handleChangeInput('dueDate', e.target.value, index) } />
+                                <input
+                                    type="date"
+                                    className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]"
+                                    value={ item.dueDate }
+                                    onChange={ (e) => handleChangeInput('dueDate', e.target.value, index) }
+                                />
                             </td>
                             <td>
-                                <select className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]" value={ item.type } onChange={ (e) => handleChangeInput('type', e.target.value, index) }>
+                                <select
+                                    className="bg-white dark:bg-gray-800 text-black text-center dark:text-white px-4 sm:px-6 w-full h-[50px]"
+                                    value={ item.type }
+                                    onChange={ (e) => handleChangeInput('type', e.target.value, index) }
+                                >
                                     <option value="" disabled>Seleccionar</option>
                                     { types.map((type) => (
                                         <option key={ type.id } value={ type.id }>{ type.name }</option>
@@ -223,7 +238,11 @@ const Table = (props: Props) => {
                                 </select>
                             </td>
                             <td>
-                                <select className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]" value={ item.state } onChange={ (e) => handleChangeInput('state', e.target.value, index) }>
+                                <select
+                                    className="bg-white dark:bg-gray-800 text-black text-center dark:text-white px-4 sm:px-6 w-full h-[50px]"
+                                    value={ item.state }
+                                    onChange={ (e) => handleChangeInput('state', e.target.value, index) }
+                                >
                                     <option value="" disabled>Seleccionar</option>
                                     { states.map((state) => (
                                         <option key={ state.id } value={ state.id }>{ state.name }</option>
