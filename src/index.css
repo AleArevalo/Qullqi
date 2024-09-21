@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    color-scheme: light dark;
+}
+
 /* Para navegadores WebKit como Chrome y Safari */
 select {
     -webkit-appearance: none;
