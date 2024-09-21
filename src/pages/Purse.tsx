@@ -250,7 +250,7 @@ const Purse = () => {
     }, [ budgetMovements ])
 
     return (
-        <main className="w-10/12 mx-auto">
+        <main className="w-10/12 mx-auto mb-6">
             <div className="flex gap-8">
                 <div className="w-full">
                     <Controller
