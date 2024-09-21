@@ -81,6 +81,7 @@ const Controller = (props: PropsController) => {
     return (
         <div className="flex gap-4 justify-between">
             <div className="flex gap-4">
+                { !props.isEqualDates &&
                 <button
                     className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white rounded-lg p-2"
                     title="Ver mes actual"
@@ -88,6 +89,7 @@ const Controller = (props: PropsController) => {
                 >
                     <IconCalendarDown />
                 </button>
+                }
                 <button
                     className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white rounded-lg p-2"
                     title="Establecer predeterminado"

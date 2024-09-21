@@ -23,6 +23,7 @@ export interface PropsSummary {
 }
 
 export interface PropsController {
+    isEqualDates:boolean
     changeDate: (year: number, month: number) => void
     setDefaultBudget: () => void
     removeCurrentBudget: () => void

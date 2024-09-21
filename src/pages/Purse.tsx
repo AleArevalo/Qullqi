@@ -10,11 +10,13 @@ import { ToastSwal } from '../utils/swal-custom'
 import { useAuth } from '../hooks/useAuth'
 import { createBudget, createMovement, removeMovement, updateMovement } from '../services/budget'
 
+const actualDate = new Date()
+
 const Purse = () => {
     const { idUser } = useAuth()
 
-    const [ yearSelected, setYearSelected ] = useState(new Date().getFullYear())
-    const [ monthSelected, setMonthSelected ] = useState(new Date().getMonth())
+    const [ yearSelected, setYearSelected ] = useState(actualDate.getFullYear())
+    const [ monthSelected, setMonthSelected ] = useState(actualDate.getMonth())
     const [ budgetMovements, setBudgetMovements ] = useState<Budget[]>(() => {
         return JSON.parse(localStorage.getItem('budgetMovements') || '[]')
     })
@@ -215,7 +217,7 @@ const Purse = () => {
     const handleRemoveAllBudget = () => {
         setBudgetMovements([])
 
-        handleChangeDate(new Date().getFullYear(), new Date().getMonth())
+        handleChangeDate(actualDate.getFullYear(), actualDate.getMonth())
 
         ToastSwal('success', 'Todas las hojas eliminadas')
     }
@@ -254,6 +256,7 @@ const Purse = () => {
             <div className="sm:flex sm:gap-8">
                 <div className="w-full">
                     <Controller
+                        isEqualDates={ (actualDate.getFullYear() === yearSelected && actualDate.getMonth() === monthSelected) }
                         changeDate={ handleChangeDate }
                         setDefaultBudget={ handleSetDefaultBudget }
                         removeCurrentBudget={ handleRemoveCurrentBudget }
