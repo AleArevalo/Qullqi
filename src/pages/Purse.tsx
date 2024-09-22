@@ -269,7 +269,7 @@ const Purse = () => {
                         totalIncomes={ getIncomesAndExpenses().incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
                         totalExpenses={ getIncomesAndExpenses().expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
                     />
-                    <hr className="border-slate-700" />
+                    <hr className="border-slate-400 dark:border-slate-700" />
                     <Movements
                         type="incomes"
                         values={ getIncomesAndExpenses().incomes }
