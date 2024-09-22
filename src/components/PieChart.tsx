@@ -17,6 +17,12 @@ const PieChart = (props: PropsPieChart) => {
     const chartRef = useRef<HTMLDivElement | null>(null)
     const [ myChart, setMyChart ] = useState<ECharts | null>(null)
     const [ allMovements, setAllMovements ] = useState<any[]>([])
+    const [ filterSelected, setFilterSelected ] = useState<string>('category')
+    const [ TypesFilter ] = useState<string[]>([
+        'Categoría',
+        'Tipo',
+        'Estado'
+    ])
     const [ totalAmount, setTotalAmount ] = useState(0)
 
     const groupByAndSumAmount = () => {
@@ -36,6 +42,14 @@ const PieChart = (props: PropsPieChart) => {
         const movements = allMovements.filter(({ name }) => !excludeCategories.includes(name))
 
         setTotalAmount(movements.reduce((total, { value }) => total + value, 0))
+    }
+
+    const handleFilterByCategory = (category: string) => {
+        setFilterSelected(category)
+        const movements = allMovements.filter(({ name }) => name === category)
+
+        setAllMovements(movements)
+        calculateTotalAmount()
     }
 
     useEffect(() => {
@@ -123,14 +137,22 @@ const PieChart = (props: PropsPieChart) => {
     }, [ myChart, isMobile ])
 
     return (
-        <div className="relative flex overflow-x-auto shadow-md sm:rounded-lg mt-4">
-            <div className="absolute z-10 p-4">
+        <div className="relative flex border border-gray-400 dark:border-gray-700 overflow-x-auto shadow-md sm:rounded-lg mt-4">
+            <div className="flex justify-between items-center absolute w-full z-10 p-4">
                 <button className="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-3 py-1.5" onClick={ () => props.setChangeChart(!props.isChart) }>
                     <IconTableFilled />
                 </button>
                 <span className="ms-6">
-                    <b className="text-purple-600 me-2">Total:</b> { formatMoney(totalAmount) }
+                    <b className="text-purple-500 me-2">Total:</b> { formatMoney(totalAmount) }
                 </span>
+                <div className="flex gap-2">
+                    <b className="text-purple-500 me-2">Filtrar por:</b>
+                    { TypesFilter.map(type => (
+                        <button className={`${type === filterSelected ? 'hidden' : ''} bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white text-sm rounded-lg px-2`} onClick={ () => handleFilterByCategory(type) }>
+                            { type }
+                        </button>
+                    ))}
+                </div>
             </div>
             <div ref={ chartRef } style={ { height: 400, width: '100%' } } />
         </div>
