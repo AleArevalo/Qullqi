@@ -16,15 +16,12 @@ const PieChart = (props: PropsPieChart) => {
     const groupByAndSumAmount = () => {
         const movements: { [key: string]: Movement[] } = Object.groupBy(props.values, ({ category }: Movement) => category)
 
-        const data = Object.entries(movements).map(([ category, movements ]) => {
+        return Object.entries(movements).map(([ category, movements ]) => {
             return {
                 value: movements.reduce((total, { amount }) => total + Number(amount?.replace(/\$|\./g, '')), 0),
                 name: allCategories.find(({ id, type }) => id === Number(category) && type === props.type)?.name
             }
         })
-        console.log("🚀 ~ data ~ data:", data)
-
-        return data
     }
 
     useEffect(() => {
