@@ -1,50 +1,20 @@
 import { useState, useEffect, useCallback } from "react"
 
 import { debounce } from 'lodash'
-import { IconPlus, IconTrashFilled } from "@tabler/icons-react"
+import { IconPlus, IconChartPieFilled, IconTrashFilled } from "@tabler/icons-react"
 
 import { Props } from "../interfaces/props"
 import { Movement } from "../interfaces/movement"
 import { Category } from "../interfaces/category"
 import { formatMoneyString } from "../utils/money"
+import { allCategories, allTypes, allStates } from "../utils/movement"
 
 const Table = (props: Props) => {
     const [ textFilter, setTextFilter ] = useState<string>('')
     const [ selectedItems, setSelectedItems ] = useState<string[]>([])
-    const [ categories ] = useState<Category[]>([
-        { id: 1, name: '🚪 Alquiler', type: 'expenses' },
-        { id: 2, name: '🛍️ Compras', type: 'expenses' },
-        { id: 3, name: '🍕 Comida', type: 'expenses' },
-        { id: 4, name: '🏦 Créditos', type: 'expenses' },
-        { id: 5, name: '🚎 Transporte', type: 'expenses' },
-        { id: 6, name: '💳 Tarjetas de crédito', type: 'expenses' },
-        { id: 7, name: '🍿 Entrenamiento', type: 'expenses' },
-        { id: 8, name: '🧑‍🏫 Educación', type: 'expenses' },
-        { id: 9, name: '🏠 Servicios generales', type: 'expenses' },
-        { id: 10, name: '🧑‍🧑‍🧒‍🧒 Ayudas familiares', type: 'expenses' },
-        { id: 11, name: '📊 Inversión', type: 'expenses' },
-        { id: 12, name: '✈️ Viajes', type: 'expenses' },
-        { id: 13, name: '🛡️ Seguros', type: 'expenses' },
-        { id: 14, name: '🏥 Salud', type: 'expenses' },
-        { id: 15, name: '🐶 Mascotas', type: 'expenses' },
-        { id: 16, name: '⚽️ Hobbies', type: 'expenses' },
-        { id: 17, name: '💸 Otros', type: 'expenses' },
-        { id: 18, name: '💰 Sueldo', type: 'incomes' },
-        { id: 19, name: '🚪 Alquiler', type: 'incomes' },
-        { id: 20, name: '👨🏻‍💻 Freelance', type: 'incomes' },
-        { id: 21, name: '💸 Otros', type: 'incomes' }
-    ])
-    const [ types ] = useState<Category[]>([
-        { id: 1, name: '💵 Manual' },
-        { id: 2, name: '💳 Suscripción' }
-    ])
-    const [ states ] = useState<Category[]>([
-        { id: 1, name: '⌛️ Pendiente' },
-        { id: 2, name: '✅ Pagada' },
-        { id: 3, name: '❌ Rechazada' },
-        { id: 4, name: '🚫 Anulada' },
-        { id: 5, name: '⛔️ Cancelada' }
-    ])
+    const [ categories ] = useState<Category[]>(allCategories)
+    const [ types ] = useState<Category[]>(allTypes)
+    const [ states ] = useState<Category[]>(allStates)
     const [ arrayMovement, setArrayMovement ] = useState<Movement[]>([])
 
     // Creamos una función debounced para llamar a onValorChange
@@ -125,6 +95,11 @@ const Table = (props: Props) => {
                     { selectedItems.length > 0 &&
                         <button className="inline-flex items-center text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-3 py-1.5" type="button" onClick={ deleteItem }>
                             <IconTrashFilled />
+                        </button>
+                    }
+                    { props.values.length > 0 &&
+                        <button className="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-3 py-1.5" type="button" onClick={ () => props.setChangeTable?.(!props.isTable) }>
+                            <IconChartPieFilled />
                         </button>
                     }
                 </div>
