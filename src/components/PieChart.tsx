@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { IconTableFilled } from '@tabler/icons-react'
+import { groupBy } from 'lodash'
 
 import { PropsPieChart } from '../interfaces/props'
 import { ECharts, EChartsOption, init } from 'echarts'
@@ -19,7 +20,7 @@ const PieChart = (props: PropsPieChart) => {
     const [ totalAmount, setTotalAmount ] = useState(0)
 
     const groupByAndSumAmount = () => {
-        const movements: { [key: string]: Movement[] } = Object.groupBy(props.values, ({ category }: Movement) => category)
+        const movements: { [key: string]: Movement[] } = groupBy(props.values, ({ category }: Movement) => category)
 
         const data = Object.entries(movements).map(([ category, movements ]) => {
             return {
