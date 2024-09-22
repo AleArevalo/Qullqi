@@ -9,6 +9,8 @@ import { allCategories } from '../utils/movement'
 
 const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
 
+const isMobile = window.innerWidth < 768
+
 const PieChart = (props: PropsPieChart) => {
     const chartRef = useRef<HTMLDivElement | null>(null)
     const [ myChart, setMyChart ] = useState<ECharts | null>(null)
@@ -51,9 +53,10 @@ const PieChart = (props: PropsPieChart) => {
                 },
                 series: [
                     {
-                        name: (props.type === 'incomes' ? 'Ingresos' : 'Gastos'),
+                        name: ( props.type === 'incomes' ? 'Ingresos' : 'Gastos' ),
                         type: 'pie',
-                        radius: ['40%', '70%'],
+                        radius: [ '40%', isMobile ? '60%' :'70%' ],
+                        center: [ isMobile ? '30%' : '50%', '50%' ], // Esto mueve el gráfico a la izquierda 
                         avoidLabelOverlap: false,
                         itemStyle: {
                             borderRadius: 15,
@@ -80,7 +83,7 @@ const PieChart = (props: PropsPieChart) => {
             // Establece las opciones del gráfico
             myChart.setOption(option)
         }
-    }, [ myChart ])
+    }, [ myChart, isMobile ])
 
     return (
         <div className="relative flex overflow-x-auto shadow-md sm:rounded-lg mt-4">
