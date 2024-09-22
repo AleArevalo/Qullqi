@@ -1,71 +1,100 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react'
 
-import * as echarts from 'echarts';
+import { IconTableFilled } from '@tabler/icons-react'
 
-const PieChart = () => {
-    const chartRef = useRef<HTMLDivElement | null>(null); // Referencia al contenedor del gráfico
+import { PropsPieChart } from '../interfaces/props'
+import { ECharts, EChartsOption, init } from 'echarts'
+import { Movement } from '../interfaces/movement'
+import { allCategories } from '../utils/movement'
+
+const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+const PieChart = (props: PropsPieChart) => {
+    const chartRef = useRef<HTMLDivElement | null>(null)
+    const [ myChart, setMyChart ] = useState<ECharts | null>(null)
+
+    const groupByAndSumAmount = () => {
+        const movements: { [key: string]: Movement[] } = Object.groupBy(props.values, ({ category }: Movement) => category)
+
+        const data = Object.entries(movements).map(([ category, movements ]) => {
+            return {
+                value: movements.reduce((total, { amount }) => total + Number(amount?.replace(/\$|\./g, '')), 0),
+                name: allCategories.find(({ id, type }) => id === Number(category) && type === props.type)?.name
+            }
+        })
+        console.log("🚀 ~ data ~ data:", data)
+
+        return data
+    }
 
     useEffect(() => {
-        // Inicializa el gráfico solo cuando el componente se monta
-        const chartDom = chartRef.current!;
-        const myChart = echarts.init(chartDom);
+        const chartDom = chartRef.current!
+        const chartInstance = init(chartDom)
 
-        // Define la opción del gráfico
-        const option: echarts.EChartsOption = {
-            tooltip: {
-                trigger: 'item',
-            },
-            legend: {
-                top: '5%',
-                left: 'center',
-            },
-            series: [
-                {
-                    name: 'Access From',
-                    type: 'pie',
-                    radius: ['40%', '70%'],
-                    avoidLabelOverlap: false,
-                    itemStyle: {
-                        borderRadius: 10,
-                    },
-                    label: {
-                        show: false,
-                        position: 'center',
-                    },
-                    emphasis: {
-                        label: {
-                            show: true,
-                            fontSize: 40,
-                            fontWeight: 'bold',
-                        },
-                    },
-                    labelLine: {
-                        show: false,
-                    },
-                    data: [
-                        { value: 1048, name: 'Search Engine' },
-                        { value: 735, name: 'Direct' },
-                        { value: 580, name: 'Email' },
-                        { value: 484, name: 'Union Ads' },
-                        { value: 300, name: 'Video Ads' },
-                    ],
-                },
-            ],
-        };
+        setMyChart(chartInstance)
 
-        // Establece las opciones del gráfico
-        myChart.setOption(option);
-
-        // Limpia el gráfico al desmontar el componente
         return () => {
-            myChart.dispose();
-        };
-    }, []);
+            chartInstance.dispose()
+        }
+    }, [])
+
+    useEffect(() => {
+        if (myChart) {
+            const option: EChartsOption = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    left: 'right',
+                    top: 'center',
+                    orient: 'vertical',
+                    textStyle: {
+                        color: darkMode ? '#FFFFFF' : '#000000'
+                    }
+                },
+                series: [
+                    {
+                        name: (props.type === 'incomes' ? 'Ingresos' : 'Gastos'),
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                            borderRadius: 15,
+                        },
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: 20
+                            },
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: groupByAndSumAmount()
+                    }
+                ],
+                darkMode: darkMode, // Activa o desactiva el modo oscuro
+            }
+
+            // Establece las opciones del gráfico
+            myChart.setOption(option)
+        }
+    }, [ myChart ])
 
     return (
-        // El contenedor para el gráfico
-        <div ref={chartRef} style={{ height: 400, width: '100%' }} />
-    );
-};
+        <div className="relative flex overflow-x-auto shadow-md sm:rounded-lg mt-4">
+            <div className="absolute z-10 p-4">
+                <button className="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-3 py-1.5" onClick={ () => props.setChangeChart(!props.isChart) }>
+                    <IconTableFilled />
+                </button>
+            </div>
+            <div ref={ chartRef } style={ { height: 400, width: '100%' } } />
+        </div>
+    )
+}
 
-export default PieChart;
+export default PieChart

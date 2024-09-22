@@ -5,7 +5,7 @@ import { Budget } from '../interfaces/budget'
 import Controller from '../components/Controller'
 import History from '../components/History'
 import Summary from '../components/Summary'
-import Table from '../components/Table'
+import { Movements } from '../components/Movements'
 import { ToastSwal } from '../utils/swal-custom'
 import { useAuth } from '../hooks/useAuth'
 import { createBudget, createMovement, removeMovement, updateMovement } from '../services/budget'
@@ -270,14 +270,14 @@ const Purse = () => {
                         totalExpenses={ getIncomesAndExpenses().expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
                     />
                     <hr className="border-slate-700" />
-                    <Table
+                    <Movements
                         type="incomes"
                         values={ getIncomesAndExpenses().incomes }
                         addValues={ addBudgetMovement }
                         setValues={ updateBudgetMovement }
                         deleteValues={ deleteBudgetMovement }
                     />
-                    <Table
+                    <Movements
                         type="expenses"
                         values={ getIncomesAndExpenses().expenses }
                         addValues={ addBudgetMovement }

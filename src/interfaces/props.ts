@@ -6,6 +6,8 @@ export interface Props {
     addValues: (type: string) => void
     setValues: (index: number, type: string, movement: Movement) => void
     deleteValues: (values: string[], type: string) => void
+    isTable?: boolean
+    setChangeTable?: (isTable: boolean) => void
 }
 
 export interface PropsHistory {
@@ -28,4 +30,11 @@ export interface PropsController {
     setDefaultBudget: () => void
     removeCurrentBudget: () => void
     removeAllBudget: () => void
+}
+
+export interface PropsPieChart {
+    type: string
+    values: Movement[]
+    isChart: boolean
+    setChangeChart: (isChart: boolean) => void
 }
