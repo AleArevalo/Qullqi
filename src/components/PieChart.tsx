@@ -163,7 +163,7 @@ const PieChart = (props: PropsPieChart) => {
                     ))}
                 </div>
             </div>
-            <div ref={ chartRef } style={ { height: (isMobile && allMovements.length > 10 ? 500 : 400), width: '100%', padding: '0 16px' } } />
+            <div ref={ chartRef } style={ { height: (isMobile ? 500 : 400), width: '100%', padding: (isMobile ? '0 8px' : '0 16px') } } />
         </div>
     )
 }
