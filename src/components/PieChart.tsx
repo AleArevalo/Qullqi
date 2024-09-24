@@ -6,8 +6,9 @@ import { groupBy } from 'lodash'
 import { PropsPieChart } from '../interfaces/props'
 import { ECharts, EChartsOption, init } from 'echarts'
 import { Movement } from '../interfaces/movement'
-import { allCategories } from '../utils/movement'
+import { allCategories, allStates, allTypes } from '../utils/movement'
 import { formatMoney } from '../utils/money'
+import { Category } from '../interfaces/category'
 
 const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
 
@@ -17,8 +18,8 @@ const PieChart = (props: PropsPieChart) => {
     const chartRef = useRef<HTMLDivElement | null>(null)
     const [ myChart, setMyChart ] = useState<ECharts | null>(null)
     const [ allMovements, setAllMovements ] = useState<any[]>([])
-    const [ filterSelected, setFilterSelected ] = useState<string>('category')
-    const [ TypesFilter ] = useState<string[]>([
+    const [ filterSelected, setFilterSelected ] = useState<string>('Categoría')
+    const [ filterTypes ] = useState<string[]>([
         'Categoría',
         'Tipo',
         'Estado'
@@ -26,12 +27,24 @@ const PieChart = (props: PropsPieChart) => {
     const [ totalAmount, setTotalAmount ] = useState(0)
 
     const groupByAndSumAmount = () => {
-        const movements: { [key: string]: Movement[] } = groupBy(props.values, ({ category }: Movement) => category)
+        let allTypeCustom: Category[] = [];
 
-        const data = Object.entries(movements).map(([ category, movements ]) => {
+        if (filterSelected === 'Categoría') {
+            allTypeCustom = allCategories
+        } else if (filterSelected === 'Tipo') {
+            allTypeCustom = allTypes
+        } else if (filterSelected === 'Estado') {
+            allTypeCustom = allStates
+        }
+
+        allTypeCustom = allTypeCustom.filter(({ type }) => type === props.type)
+
+        const movements: { [key: string]: Movement[] } = groupBy(props.values, ({ category, type, state }: Movement) => filterSelected === 'Categoría' ? category : filterSelected === 'Tipo' ? type : state)
+
+        const data = Object.entries(movements).map(([ typeKey, movements ]) => {
             return {
                 value: movements.reduce((total, { amount }) => total + Number(amount?.replace(/\$|\./g, '')), 0),
-                name: allCategories.find(({ id, type }) => id === Number(category) && type === props.type)?.name
+                name: allTypeCustom.find(({ id }) => id === Number(typeKey))?.name ?? 'Sin clasificar'
             }
         })
 
@@ -42,14 +55,6 @@ const PieChart = (props: PropsPieChart) => {
         const movements = allMovements.filter(({ name }) => !excludeCategories.includes(name))
 
         setTotalAmount(movements.reduce((total, { value }) => total + value, 0))
-    }
-
-    const handleFilterByCategory = (category: string) => {
-        setFilterSelected(category)
-        const movements = allMovements.filter(({ name }) => name === category)
-
-        setAllMovements(movements)
-        calculateTotalAmount()
     }
 
     useEffect(() => {
@@ -63,7 +68,7 @@ const PieChart = (props: PropsPieChart) => {
         return () => {
             chartInstance.dispose()
         }
-    }, [])
+    }, [ filterSelected ])
 
     useEffect(() => {
         if (myChart) {
@@ -147,8 +152,8 @@ const PieChart = (props: PropsPieChart) => {
                 </span>
                 <div className="flex gap-2">
                     <b className="text-purple-500 me-2">Filtrar por:</b>
-                    { TypesFilter.map(type => (
-                        <button className={`${type === filterSelected ? 'hidden' : ''} bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white text-sm rounded-lg px-2`} onClick={ () => handleFilterByCategory(type) }>
+                    { filterTypes.map(type => (
+                        <button className={`${type === filterSelected ? 'hidden' : ''} bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white text-sm rounded-lg px-2`} onClick={ () => setFilterSelected(type) }>
                             { type }
                         </button>
                     ))}
