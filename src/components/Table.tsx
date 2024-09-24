@@ -207,7 +207,7 @@ const Table = (props: Props) => {
                                     onChange={ (e) => handleChangeInput('type', e.target.value, index) }
                                 >
                                     <option value="" disabled>Seleccionar</option>
-                                    { types.map((type) => (
+                                    { types.filter((category) => category.type === props.type).map((type) => (
                                         <option key={ type.id } value={ type.id }>{ type.name }</option>
                                     ))}
                                 </select>
@@ -219,7 +219,7 @@ const Table = (props: Props) => {
                                     onChange={ (e) => handleChangeInput('state', e.target.value, index) }
                                 >
                                     <option value="" disabled>Seleccionar</option>
-                                    { states.map((state) => (
+                                    { states.filter((state) => state.type === props.type).map((state) => (
                                         <option key={ state.id } value={ state.id }>{ state.name }</option>
                                     ))}
                                 </select>

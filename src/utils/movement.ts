@@ -1,7 +1,7 @@
 import { Category } from "../interfaces/category"
 
 export const allCategories: Category[] = [
-    { id: 1, name: '🚪 Alquiler', type: 'expenses' },
+    { id: 1, name: '🚪 Vivienda', type: 'expenses' },
     { id: 2, name: '🛍️ Compras', type: 'expenses' },
     { id: 3, name: '🍕 Comida', type: 'expenses' },
     { id: 4, name: '🏦 Créditos', type: 'expenses' },
@@ -19,20 +19,27 @@ export const allCategories: Category[] = [
     { id: 16, name: '⚽️ Hobbies', type: 'expenses' },
     { id: 17, name: '💸 Otros', type: 'expenses' },
     { id: 18, name: '💰 Sueldo', type: 'incomes' },
-    { id: 19, name: '🚪 Alquiler', type: 'incomes' },
+    { id: 19, name: '🚪 Vivienda', type: 'incomes' },
     { id: 20, name: '👨🏻‍💻 Freelance', type: 'incomes' },
     { id: 21, name: '💸 Otros', type: 'incomes' }
 ]
 
 export const allTypes: Category[] = [
-    { id: 1, name: '💵 Manual' },
-    { id: 2, name: '💳 Suscripción' }
+    { id: 1, name: '💵 Manual', type: 'incomes' },
+    { id: 2, name: '💳 Suscripción', type: 'incomes' },
+    { id: 3, name: '💵 Manual', type: 'expenses' },
+    { id: 4, name: '💳 Suscripción', type: 'expenses' }
 ]
 
 export const allStates: Category[] = [
-    { id: 1, name: '⌛️ Pendiente' },
-    { id: 2, name: '✅ Pagada' },
-    { id: 3, name: '❌ Rechazada' },
-    { id: 4, name: '🚫 Anulada' },
-    { id: 5, name: '⛔️ Cancelada' }
+    { id: 1, name: '⌛️ Pendiente', type: 'incomes' },
+    { id: 2, name: '✅ Pagada', type: 'incomes' },
+    { id: 3, name: '❌ Rechazada', type: 'incomes' },
+    { id: 4, name: '🚫 Anulada', type: 'incomes' },
+    { id: 5, name: '⛔️ Cancelada', type: 'incomes' },
+    { id: 6, name: '⌛️ Pendiente', type: 'expenses' },
+    { id: 7, name: '✅ Pagada', type: 'expenses' },
+    { id: 8, name: '❌ Rechazada', type: 'expenses' },
+    { id: 9, name: '🚫 Anulada', type: 'expenses' },
+    { id: 10, name: '⛔️ Cancelada', type: 'expenses' }
 ]
