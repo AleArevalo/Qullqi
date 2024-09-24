@@ -78,7 +78,7 @@ const PieChart = (props: PropsPieChart) => {
                 },
                 legend: {
                     left: 'right',
-                    top: isMobile ? '20%' : 'center',
+                    top: isMobile ? allMovements.length < 10 ? 'center' : '27%' : allMovements.length < 10 ? 'center' : '16%',
                     orient: 'vertical',
                     textStyle: {
                         color: darkMode ? '#FFFFFF' : '#000000'
@@ -163,7 +163,7 @@ const PieChart = (props: PropsPieChart) => {
                     ))}
                 </div>
             </div>
-            <div ref={ chartRef } style={ { height: 400, width: '100%', padding: '0 16px' } } />
+            <div ref={ chartRef } style={ { height: (isMobile && allMovements.length > 10 ? 500 : 400), width: '100%', padding: '0 16px' } } />
         </div>
     )
 }
