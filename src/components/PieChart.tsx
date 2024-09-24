@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { IconTableFilled } from '@tabler/icons-react'
+import { ECharts, EChartsOption, init } from 'echarts'
 import { groupBy } from 'lodash'
 
 import { PropsPieChart } from '../interfaces/props'
-import { ECharts, EChartsOption, init } from 'echarts'
 import { Movement } from '../interfaces/movement'
 import { allCategories, allStates, allTypes } from '../utils/movement'
 import { formatMoney } from '../utils/money'
@@ -74,7 +74,14 @@ const PieChart = (props: PropsPieChart) => {
         if (myChart) {
             const option: EChartsOption = {
                 tooltip: {
-                    trigger: 'item'
+                    trigger: 'item',
+                    backgroundColor: (darkMode ? 'rgba(0, 0, 0, 0.5)' : '#FFFFFF'),
+                    textStyle: {
+                        color: (darkMode ? '#FFFFFF' : '#000000')
+                    },
+                    formatter: (params: any) => {
+                        return `${params.name}<br/>${params.marker} ${params.seriesName}: <b>${formatMoney(params.value)}</b><br/>⚖️ Representa: <b>${params.percent}%</b>`
+                    }
                 },
                 legend: {
                     left: 'right',
