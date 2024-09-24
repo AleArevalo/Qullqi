@@ -8,7 +8,7 @@ import Summary from '../components/Summary'
 import { Movements } from '../components/Movements'
 import { ToastSwal } from '../utils/swal-custom'
 import { useAuth } from '../hooks/useAuth'
-import { createBudget, createMovement, removeMovement, updateMovement } from '../services/budget'
+import { createBudget, createMovement, getAllBudgets, removeMovement, updateMovement } from '../services/budget'
 
 const actualDate = new Date()
 
@@ -245,11 +245,33 @@ const Purse = () => {
         }
     }
 
+
+    const loadAllBudgets = async (userId: string) => {
+        if (userId) {
+            const { success, message, data } = await getAllBudgets(userId)
+    
+            if (!success) {
+                ToastSwal('error', message)
+            }
+
+            if (data) {
+                setBudgetMovements(data)
+                ToastSwal('success', 'Sincronización exitosa')
+            }
+        }
+    }
+
     useEffect(() => {
         if (budgetMovements) {
             localStorage.setItem('budgetMovements', JSON.stringify(budgetMovements))
         }
     }, [ budgetMovements ])
+
+    useEffect(() => {
+        if (idUser) {
+            loadAllBudgets(idUser)
+        }
+    }, [ idUser ])
 
     return (
         <main className="w-10/12 mx-auto mb-20">

@@ -5,7 +5,6 @@ import Swal from "sweetalert2"
 
 import { useAuth } from "../hooks/useAuth"
 import { supabase } from "../libs/supabase"
-import { getAllBudgets } from "../services/budget"
 import { ToastSwal } from "../utils/swal-custom"
 
 const Header = () => {
@@ -103,27 +102,9 @@ const Header = () => {
                     ToastSwal('success', 'Sesión iniciada con éxito. Estamos sincronizando tus datos con la nube.')
 
                     login(result.value.access_token, result.value.user.id)
-
-                    loadAllBudgets(result.value.user.id)
                 }
             }
         })
-    }
-
-    const loadAllBudgets = async (userId: string) => {
-        if (userId) {
-            const { success, message, data } = await getAllBudgets(userId)
-    
-            if (!success) {
-                ToastSwal('error', message)
-            }
-
-            if (data) {
-                localStorage.setItem('budgetMovements', JSON.stringify(data))
-                ToastSwal('success', 'Movimientos actualizados correctamente')
-                location.reload()
-            }
-        }
     }
 
     const handleLogout = async () => {
@@ -135,10 +116,6 @@ const Header = () => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
                 login(session.access_token, session.user.id)
-
-                if (token) {
-                    loadAllBudgets(session.user.id)
-                }
             }
         })
 
@@ -147,10 +124,6 @@ const Header = () => {
         } = supabase.auth.onAuthStateChange((_event, session) => {
             if (session) {
                 login(session.access_token, session.user.id)
-
-                if (token) {
-                    loadAllBudgets(session.user.id)
-                }
             }
         })
 
