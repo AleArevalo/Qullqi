@@ -78,7 +78,7 @@ const PieChart = (props: PropsPieChart) => {
                 },
                 legend: {
                     left: 'right',
-                    top: 'center',
+                    top: isMobile ? '20%' : 'center',
                     orient: 'vertical',
                     textStyle: {
                         color: darkMode ? '#FFFFFF' : '#000000'
@@ -89,7 +89,7 @@ const PieChart = (props: PropsPieChart) => {
                         name: ( props.type === 'incomes' ? 'Ingresos' : 'Gastos' ),
                         type: 'pie',
                         radius: [ '40%', isMobile ? '60%' :'70%' ],
-                        center: [ isMobile ? '30%' : '50%', '50%' ], // Esto mueve el gráfico a la izquierda 
+                        center: [ isMobile ? '30%' : '50%', isMobile ? '60%' : '55%' ], // Esto mueve el gráfico a la izquierda 
                         avoidLabelOverlap: false,
                         itemStyle: {
                             borderRadius: 15,
@@ -121,7 +121,6 @@ const PieChart = (props: PropsPieChart) => {
 
             // Agrega el listener para el evento legendselectchanged
             const handleLegendSelectChanged = (params: any) => {
-                console.log('Legend item clicked:', params.selected)
                 // Aquí puedes ejecutar tu lógica callback
                 const excludeCategories: string[] = [];
                 for (const key in params.selected) {
@@ -142,15 +141,15 @@ const PieChart = (props: PropsPieChart) => {
     }, [ myChart, isMobile ])
 
     return (
-        <div className="relative flex border border-gray-400 dark:border-gray-700 overflow-x-auto shadow-md sm:rounded-lg mt-4">
-            <div className="flex justify-between items-center absolute w-full z-10 p-4">
+        <div className="relative flex border border-gray-400 dark:border-gray-700 overflow-x-auto shadow-md rounded-lg mt-4">
+            <div className="sm:flex justify-between items-center absolute w-full z-10 p-4">
                 <button className="inline-flex items-center text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-3 py-1.5" onClick={ () => props.setChangeChart(!props.isChart) }>
                     <IconTableFilled />
                 </button>
                 <span className="ms-6">
                     <b className="text-purple-500 me-2">Total:</b> { formatMoney(totalAmount) }
                 </span>
-                <div className="flex gap-2">
+                <div className="flex justify-end mt-3 sm:mt-0 gap-2">
                     <b className="text-purple-500 me-2">Filtrar por:</b>
                     { filterTypes.map((type, index) => (
                         <button
