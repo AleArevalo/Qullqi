@@ -152,14 +152,19 @@ const PieChart = (props: PropsPieChart) => {
                 </span>
                 <div className="flex gap-2">
                     <b className="text-purple-500 me-2">Filtrar por:</b>
-                    { filterTypes.map(type => (
-                        <button className={`${type === filterSelected ? 'hidden' : ''} bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white text-sm rounded-lg px-2`} onClick={ () => setFilterSelected(type) }>
+                    { filterTypes.map((type, index) => (
+                        <button
+                            key={ `custom-filter-${index}` }
+                            className={`${type === filterSelected ? 'bg-purple-500 text-white' : 'bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600'} text-black dark:text-white text-sm rounded-lg px-2`}
+                            onClick={ () => setFilterSelected(type) }
+                            disabled={ type === filterSelected }
+                        >
                             { type }
                         </button>
                     ))}
                 </div>
             </div>
-            <div ref={ chartRef } style={ { height: 400, width: '100%' } } />
+            <div ref={ chartRef } style={ { height: 400, width: '100%', padding: '0 16px' } } />
         </div>
     )
 }
