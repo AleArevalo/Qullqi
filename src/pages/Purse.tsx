@@ -8,7 +8,7 @@ import Summary from '../components/Summary'
 import { Movements } from '../components/Movements'
 import { ToastSwal } from '../utils/swal-custom'
 import { useAuth } from '../hooks/useAuth'
-import { createBudget, createMovement, getAllBudgets, removeMovement, updateMovement } from '../services/budget'
+import { createBudget, createMovement, getAllBudgets, removeMovement, setDefaultBudget, updateMovement } from '../services/budget'
 
 const actualDate = new Date()
 
@@ -222,11 +222,19 @@ const Purse = () => {
         ToastSwal('success', 'Todas las hojas eliminadas')
     }
 
-    const handleSetDefaultBudget = () => {
+    const handleSetDefaultBudget = async () => {
         const getCurrentBudgetMovement = budgetMovements.find((budget) => budget.month === monthSelected && budget.year === yearSelected)
 
         if (getCurrentBudgetMovement) {
             localStorage.setItem('currentBudget', JSON.stringify(getCurrentBudgetMovement))
+
+            if (idUser) {
+                const { success, message } = await setDefaultBudget(getCurrentBudgetMovement.id)
+
+                if (!success) {
+                    ToastSwal('error', message)
+                }
+            }
 
             ToastSwal('success', 'Hoja predeterminada establecida')
         }

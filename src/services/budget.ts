@@ -146,3 +146,16 @@ export const removeMovement = async (idMovements: string[]): Promise<Response> =
         data
     }
 }
+
+export const setDefaultBudget = async (idBudget: string): Promise<Response> => {
+    const { data, error } = await supabase
+        .from('Budget')
+        .update({ is_default: true })
+        .eq('id', idBudget)
+
+    return {
+        success: !error,
+        message: error ? 'Ocurrió un error al establecer el presupuesto como predeterminado.' : 'Movimiento establecido como presupuesto predeterminado.',
+        data
+    }
+}
