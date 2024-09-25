@@ -21,9 +21,15 @@ const Purse = () => {
         return JSON.parse(localStorage.getItem('budgetMovements') || '[]')
     })
 
+    const [ isTableViewIncomes, setTableViewIncomes ] = useState(true)
+    const [ isTableViewExpenses, setTableViewExpenses ] = useState(true)
+
     const handleChangeDate = (year: number, month: number) => {
         setYearSelected(year)
         setMonthSelected(month)
+
+        setTableViewIncomes(true)
+        setTableViewExpenses(true)
     }
 
     const getAvailableBalance = (): number => {
@@ -253,7 +259,6 @@ const Purse = () => {
         }
     }
 
-
     const loadAllBudgets = async (userId: string) => {
         if (userId) {
             const { success, message, data } = await getAllBudgets(userId)
@@ -306,6 +311,8 @@ const Purse = () => {
                         addValues={ addBudgetMovement }
                         setValues={ updateBudgetMovement }
                         deleteValues={ deleteBudgetMovement }
+                        isTable={ isTableViewIncomes }
+                        setChangeTable={ setTableViewIncomes }
                     />
                     <Movements
                         type="expenses"
@@ -313,6 +320,8 @@ const Purse = () => {
                         addValues={ addBudgetMovement }
                         setValues={ updateBudgetMovement }
                         deleteValues={ deleteBudgetMovement }
+                        isTable={ isTableViewExpenses }
+                        setChangeTable={ setTableViewExpenses }
                     />
                 </div>
                 <History
