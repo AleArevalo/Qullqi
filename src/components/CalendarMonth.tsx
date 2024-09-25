@@ -38,7 +38,7 @@ const Calendar = (props: PropsHistory) => {
         <div className="relative">
             <div className="flex sm:flex-col flex-row justify-center items-center sm:space-y-4 p-4 sm:p-0 gap-8 sm:gap-0">
                 <button className="hidden sm:block" onClick={ () => handleChangeDate(props.yearSelected, props.monthSelected + 1) } disabled={ props.monthSelected === 11 }>
-                    <IconChevronUp className={ `${ props.monthSelected === 0 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400' }` } />
+                    <IconChevronUp className={ `${ props.monthSelected === 11 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400' }` } />
                 </button>
                 <button className="block sm:hidden" onClick={ () => handleChangeDate(props.yearSelected, props.monthSelected - 1) } disabled={ props.monthSelected === 0 }>
                     <IconChevronLeft className={ `${ props.monthSelected === 0 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400' }` } />
@@ -50,7 +50,7 @@ const Calendar = (props: PropsHistory) => {
                     { months[props.monthSelected] } { props.yearSelected }
                 </button>
                 <button className="hidden sm:block" onClick={ () => handleChangeDate(props.yearSelected, props.monthSelected - 1)} disabled={ props.monthSelected === 0 }>
-                    <IconChevronDown className={ `${ props.monthSelected === 11 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400' }` } />
+                    <IconChevronDown className={ `${ props.monthSelected === 0 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400' }` } />
                 </button>
                 <button className="block sm:hidden" onClick={ () => handleChangeDate(props.yearSelected, props.monthSelected + 1)} disabled={ props.monthSelected === 11 }>
                     <IconChevronRight className={ `${ props.monthSelected === 11 ? 'text-gray-600' : 'dark:text-white hover:text-gray-400' }` } />
