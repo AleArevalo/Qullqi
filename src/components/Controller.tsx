@@ -1,4 +1,4 @@
-import { IconCalendarDown, IconCircleDashedCheck, IconTimelineEventX, IconTrashX } from "@tabler/icons-react"
+import { IconBookDownload, IconCalendarDown, IconCircleDashedCheck, IconTimelineEventX, IconTrashX } from "@tabler/icons-react"
 import Swal from "sweetalert2"
 
 import { PropsController } from "../interfaces/props";
@@ -90,13 +90,24 @@ const Controller = (props: PropsController) => {
                     <IconCalendarDown />
                 </button>
                 }
-                <button
-                    className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white rounded-lg p-2"
-                    title="Establecer predeterminado"
-                    onClick={ handleSetDefault }
-                >
-                    <IconCircleDashedCheck />
-                </button>
+                { !props.isDefaultBudget &&
+                <>
+                    <button
+                        className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white rounded-lg p-2"
+                        title="Definir predeterminado"
+                        onClick={ handleSetDefault }
+                    >
+                        <IconCircleDashedCheck />
+                    </button>
+                    <button
+                        className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white rounded-lg p-2"
+                        title="Establecer predeterminado"
+                        onClick={ props.establishDefaultBudget }
+                    >
+                        <IconBookDownload />
+                    </button>
+                </>
+                }
             </div>
             <div className="flex gap-4">
                 <button

@@ -26,8 +26,10 @@ export interface PropsSummary {
 
 export interface PropsController {
     isEqualDates:boolean
+    isDefaultBudget: boolean
     changeDate: (year: number, month: number) => void
     setDefaultBudget: () => void
+    establishDefaultBudget: () => void
     removeCurrentBudget: () => void
     removeAllBudget: () => void
 }

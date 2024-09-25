@@ -15,12 +15,19 @@ const actualDate = new Date()
 const Purse = () => {
     const { idUser } = useAuth()
 
+    const [ budgeSelected, setBudgeSelected ] = useState<Budget>({
+        id: '',
+        month: actualDate.getMonth(),
+        year: actualDate.getFullYear(),
+        isDefault: false,
+        incomes: [],
+        expenses: []
+    })
     const [ yearSelected, setYearSelected ] = useState(actualDate.getFullYear())
     const [ monthSelected, setMonthSelected ] = useState(actualDate.getMonth())
     const [ budgetMovements, setBudgetMovements ] = useState<Budget[]>(() => {
         return JSON.parse(localStorage.getItem('budgetMovements') || '[]')
     })
-
     const [ isTableViewIncomes, setTableViewIncomes ] = useState(true)
     const [ isTableViewExpenses, setTableViewExpenses ] = useState(true)
 
@@ -30,6 +37,8 @@ const Purse = () => {
 
         setTableViewIncomes(true)
         setTableViewExpenses(true)
+
+        setIncomesAndExpenses(year, month)
     }
 
     const getAvailableBalance = (): number => {
@@ -48,10 +57,20 @@ const Purse = () => {
         return incomesBalance - expensesBalance
     }
 
-    const getIncomesAndExpenses = (): { incomes: Movement[], expenses: Movement[] } => {
-        return {
-            incomes: budgetMovements.find((budget) => budget.month === monthSelected && budget.year === yearSelected)?.incomes || [],
-            expenses: budgetMovements.find((budget) => budget.month === monthSelected && budget.year === yearSelected)?.expenses || []
+    const setIncomesAndExpenses = (year: number, month: number) => {
+        const budgetSelectedIndex = budgetMovements.findIndex((budget) => budget.month === month && budget.year === year)
+
+        if (budgetSelectedIndex >= 0) {
+            setBudgeSelected(budgetMovements[budgetSelectedIndex])
+        } else {
+            setBudgeSelected({
+                id: '',
+                month: monthSelected,
+                year: yearSelected,
+                isDefault: false,
+                incomes: [],
+                expenses: []
+            })
         }
     }
 
@@ -218,10 +237,6 @@ const Purse = () => {
         }
     }
 
-    const getNameMonth = (): string => {
-        return new Date(yearSelected, monthSelected).toLocaleString('default', { month: 'long' }).toUpperCase()
-    }
-
     const handleRemoveAllBudget = () => {
         setBudgetMovements([])
 
@@ -272,15 +287,31 @@ const Purse = () => {
     const loadAllBudgets = async (userId: string) => {
         if (userId) {
             const { success, message, data } = await getAllBudgets(userId)
-    
+
             if (!success) {
                 ToastSwal('error', message)
             }
 
             if (data) {
                 setBudgetMovements(data)
+
+                const indexBudget = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
+
+                if (indexBudget >= 0) {
+                    setBudgeSelected(budgetMovements[indexBudget])
+                }
+
                 ToastSwal('success', 'Sincronización exitosa')
             }
+        }
+    }
+
+    const handleEstablishDefaultBudget = async () => {
+        const defaultBudget = budgetMovements.find((budget) => budget.isDefault)
+
+        if (defaultBudget) {
+            // TODO: establish default budget
+            console.log("🚀 ~ handleEstablishDefaultBudget ~ defaultBudget:", defaultBudget)
         }
     }
 
@@ -302,22 +333,24 @@ const Purse = () => {
                 <div className="w-full">
                     <Controller
                         isEqualDates={ (actualDate.getFullYear() === yearSelected && actualDate.getMonth() === monthSelected) }
+                        isDefaultBudget={ budgeSelected.isDefault }
                         changeDate={ handleChangeDate }
                         setDefaultBudget={ handleSetDefaultBudget }
+                        establishDefaultBudget={ handleEstablishDefaultBudget }
                         removeCurrentBudget={ handleRemoveCurrentBudget }
                         removeAllBudget={ handleRemoveAllBudget }
                     />
                     <Summary
-                        name={ getNameMonth() }
+                        name={ new Date(yearSelected, monthSelected).toLocaleString('default', { month: 'long' }).toUpperCase() }
                         subName={ yearSelected }
                         amount={ getAvailableBalance() }
-                        totalIncomes={ getIncomesAndExpenses().incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
-                        totalExpenses={ getIncomesAndExpenses().expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
+                        totalIncomes={ budgeSelected.incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
+                        totalExpenses={ budgeSelected.expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0) }
                     />
                     <hr className="border-slate-400 dark:border-slate-700" />
                     <Movements
                         type="incomes"
-                        values={ getIncomesAndExpenses().incomes }
+                        values={ budgeSelected.incomes }
                         addValues={ addBudgetMovement }
                         setValues={ updateBudgetMovement }
                         deleteValues={ deleteBudgetMovement }
@@ -326,7 +359,7 @@ const Purse = () => {
                     />
                     <Movements
                         type="expenses"
-                        values={ getIncomesAndExpenses().expenses }
+                        values={ budgeSelected.expenses }
                         addValues={ addBudgetMovement }
                         setValues={ updateBudgetMovement }
                         deleteValues={ deleteBudgetMovement }
