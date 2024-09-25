@@ -110,6 +110,7 @@ const Purse = () => {
             }
 
             setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
+            setBudgeSelected(newBudgetMovement)
         } else {
             const index = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
 
@@ -135,6 +136,7 @@ const Purse = () => {
                 budgetMovements[index] = newBudgetMovement
 
                 setBudgetMovements([ ...budgetMovements ])
+                setBudgeSelected(budgetMovements[index])
             } else {
                 const newBudgetMovement: Budget = {
                     id: await getNewIDBudget(),
@@ -162,6 +164,7 @@ const Purse = () => {
                 }
 
                 setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
+                setBudgeSelected(newBudgetMovement)
             }
         }
     }
