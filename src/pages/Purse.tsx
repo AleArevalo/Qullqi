@@ -310,8 +310,34 @@ const Purse = () => {
         const defaultBudget = budgetMovements.find((budget) => budget.isDefault)
 
         if (defaultBudget) {
-            // TODO: establish default budget
-            console.log("🚀 ~ handleEstablishDefaultBudget ~ defaultBudget:", defaultBudget)
+            const indexBudget = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
+
+            if (indexBudget >= 0) {
+                budgetMovements[indexBudget].incomes = defaultBudget.incomes
+                budgetMovements[indexBudget].expenses = defaultBudget.expenses
+
+                setBudgetMovements([ ...budgetMovements ])
+
+                // TODO: verificar si esta online para sincronizar
+            } else {
+                const newBudgetMovement: Budget = {
+                    id: await getNewIDBudget(),
+                    month: monthSelected,
+                    year: yearSelected,
+                    isDefault: false,
+                    incomes: defaultBudget.incomes,
+                    expenses: defaultBudget.expenses
+                }
+
+                setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
+                setBudgeSelected(newBudgetMovement)
+
+                // TODO: verificar si esta online para sincronizar
+            }
+
+            ToastSwal('success', 'Presupuesto establecido como predeterminado')
+        } else {
+            ToastSwal('error', 'No se encontró ningún presupuesto predeterminado')
         }
     }
 
