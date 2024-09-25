@@ -102,6 +102,7 @@ export const getAllBudgets = async (idUser: string): Promise<Response> => {
             id: budget.id,
             month: budget.month,
             year: budget.year,
+            isDefault: budget.is_default,
             incomes: movements.filter((income) => income.id_budget === budget.id && income.type_budget === 1).map((income: any) => {
                 return {
                     id: income.id,

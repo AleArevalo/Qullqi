@@ -61,6 +61,7 @@ const Purse = () => {
                 id: await getNewIDBudget(),
                 month: monthSelected,
                 year: yearSelected,
+                isDefault: false,
                 incomes: [],
                 expenses: []
             }
@@ -112,6 +113,7 @@ const Purse = () => {
                     id: await getNewIDBudget(),
                     month: monthSelected,
                     year: yearSelected,
+                    isDefault: false,
                     incomes: [],
                     expenses: []
                 }
@@ -229,13 +231,21 @@ const Purse = () => {
     }
 
     const handleSetDefaultBudget = async () => {
-        const getCurrentBudgetMovement = budgetMovements.find((budget) => budget.month === monthSelected && budget.year === yearSelected)
+        const indexBudget = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
 
-        if (getCurrentBudgetMovement) {
-            localStorage.setItem('currentBudget', JSON.stringify(getCurrentBudgetMovement))
+        if (indexBudget) {
+            budgetMovements.forEach((budget, index) => {
+                if (index === indexBudget) {
+                    budget.isDefault = true
+                } else {
+                    budget.isDefault = false
+                }
+            })
+
+            setBudgetMovements([ ...budgetMovements ])
 
             if (idUser) {
-                const { success, message } = await setDefaultBudget(getCurrentBudgetMovement.id)
+                const { success, message } = await setDefaultBudget(budgetMovements[indexBudget].id)
 
                 if (!success) {
                     ToastSwal('error', message)
