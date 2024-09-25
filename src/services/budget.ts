@@ -4,7 +4,7 @@ import { supabase } from "../libs/supabase"
 interface Response {
     success: boolean
     message: string
-    data: any[] | null
+    data: any[] | any | null
 }
 
 export const createBudget = async (idUser: string, month: number, year: number): Promise<Response> => {
@@ -158,5 +158,58 @@ export const setDefaultBudget = async (idBudget: string): Promise<Response> => {
         success: !error,
         message: error ? 'Ocurrió un error al establecer el presupuesto como predeterminado.' : 'Movimiento establecido como presupuesto predeterminado.',
         data
+    }
+}
+
+export const setMovementsArrayInBudget = async (idBudget: string, incomes: Movement[], expenses: Movement[]): Promise<Response> => {
+    const arrayIncomes: any[] = incomes.map((income: Movement) => {
+        return {
+            id_budget: idBudget,
+            type_budget: 1,
+            name: income.name,
+            amount: income.amount,
+            category: income.category,
+            dueDate: income.dueDate,
+            type: income.type,
+            state: income.state
+        }
+    })
+
+    const arrayExpenses: any[] = expenses.map((expense: Movement) => {
+        return {
+            id_budget: idBudget,
+            type_budget: 2,
+            name: expense.name,
+            amount: expense.amount,
+            category: expense.category,
+            dueDate: expense.dueDate,
+            type: expense.type,
+            state: expense.state
+        }
+    })
+
+    const arrayMovements = [ ...arrayIncomes, ...arrayExpenses ]
+
+    const { data, error } = await supabase
+        .from('Movement')
+        .insert([
+            ...arrayMovements
+        ])
+        .select()
+
+    const dataFormatted = {
+        incomes: [] as Movement[],
+        expenses: [] as Movement[]
+    }
+
+    if (!error) {
+        dataFormatted.incomes = data.filter(({ type_budget }: any) => type_budget === 1)
+        dataFormatted.expenses = data.filter(({ type_budget }: any) => type_budget === 2)
+    }
+
+    return {
+        success: !error,
+        message: error ? 'Ocurrió un error al establecer el presupuesto como predeterminado.' : 'Movimiento establecido como presupuesto predeterminado.',
+        data: dataFormatted
     }
 }

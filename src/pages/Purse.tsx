@@ -8,7 +8,15 @@ import Summary from '../components/Summary'
 import { Movements } from '../components/Movements'
 import { ToastSwal } from '../utils/swal-custom'
 import { useAuth } from '../hooks/useAuth'
-import { createBudget, createMovement, getAllBudgets, removeMovement, setDefaultBudget, updateMovement } from '../services/budget'
+import {
+    createBudget,
+    createMovement,
+    getAllBudgets,
+    removeMovement,
+    setDefaultBudget,
+    setMovementsArrayInBudget,
+    updateMovement
+} from '../services/budget'
 
 const actualDate = new Date()
 
@@ -313,12 +321,29 @@ const Purse = () => {
             const indexBudget = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
 
             if (indexBudget >= 0) {
-                budgetMovements[indexBudget].incomes = defaultBudget.incomes
-                budgetMovements[indexBudget].expenses = defaultBudget.expenses
+                if (idUser) {
+                    const { success, message, data } = await setMovementsArrayInBudget(budgetMovements[indexBudget].id, defaultBudget.incomes, defaultBudget.expenses)
 
-                setBudgetMovements([ ...budgetMovements ])
+                    if (success) {
+                        budgetMovements[indexBudget].incomes = data.incomes
+                        budgetMovements[indexBudget].expenses = data.expenses
 
-                // TODO: verificar si esta online para sincronizar
+                        setBudgetMovements([ ...budgetMovements ])
+                        setBudgeSelected(budgetMovements[indexBudget])
+
+                        ToastSwal('success', 'Presupuesto establecido como predeterminado')
+                    } else {
+                        ToastSwal('error', message)
+                    }
+                } else {
+                    budgetMovements[indexBudget].incomes = defaultBudget.incomes
+                    budgetMovements[indexBudget].expenses = defaultBudget.expenses
+
+                    setBudgetMovements([ ...budgetMovements ])
+                    setBudgeSelected(budgetMovements[indexBudget])
+
+                    ToastSwal('success', 'Presupuesto establecido como predeterminado')
+                }
             } else {
                 const newBudgetMovement: Budget = {
                     id: await getNewIDBudget(),
@@ -329,13 +354,25 @@ const Purse = () => {
                     expenses: defaultBudget.expenses
                 }
 
-                setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
-                setBudgeSelected(newBudgetMovement)
+                if (idUser) {
+                    const { success, message, data } = await setMovementsArrayInBudget(newBudgetMovement.id, newBudgetMovement.incomes, newBudgetMovement.expenses)
 
-                // TODO: verificar si esta online para sincronizar
+                    if (success) {
+                        newBudgetMovement.incomes = data.incomes
+                        newBudgetMovement.expenses = data.expenses
+
+                        setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
+                        setBudgeSelected(newBudgetMovement)
+
+                        ToastSwal('success', 'Presupuesto establecido como predeterminado')
+                    } else {
+                        ToastSwal('error', message)
+                    }
+                } else {
+                    setBudgetMovements([ ...budgetMovements, newBudgetMovement ])
+                    setBudgeSelected(newBudgetMovement)
+                }
             }
-
-            ToastSwal('success', 'Presupuesto establecido como predeterminado')
         } else {
             ToastSwal('error', 'No se encontró ningún presupuesto predeterminado')
         }
