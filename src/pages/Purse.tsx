@@ -50,19 +50,20 @@ const Purse = () => {
     }
 
     const getAvailableBalance = (): number => {
-        const previousMonthIndex = budgetMovements.findIndex( (budget) => budget.month === (monthSelected - 1) && budget.year === yearSelected)
-
-        if (previousMonthIndex === -1) {
+        if (budgetMovements.length === 0) {
             return 0
         }
 
-        const incomes = budgetMovements[previousMonthIndex].incomes
-        const expenses = budgetMovements[previousMonthIndex].expenses
-
-        const incomesBalance = incomes.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0)
-        const expensesBalance = expenses.reduce((total, item) => total + Number(item.amount?.replace(/\$|\./g, '')), 0)
-
-        return incomesBalance - expensesBalance
+        const allPreviousMonths = budgetMovements.filter((budget) => 
+            (budget.year < yearSelected || (budget.year === yearSelected && budget.month < (monthSelected)))
+        );
+    
+        const incomesBalance = allPreviousMonths.reduce((total, item) =>
+            total + Number(item.incomes.reduce((total, income) => total + Number(income.amount?.replace(/\$|\./g, '')), 0)), 0);
+        const expensesBalance = allPreviousMonths.reduce((total, item) =>
+            total + Number(item.expenses.reduce((total, expense) => total + Number(expense.amount?.replace(/\$|\./g, '')), 0)), 0);
+    
+        return incomesBalance - expensesBalance;
     }
 
     const setIncomesAndExpenses = (year: number, month: number) => {
