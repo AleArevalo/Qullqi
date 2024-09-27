@@ -260,7 +260,7 @@ const Purse = () => {
     const handleSetDefaultBudget = async () => {
         const indexBudget = budgetMovements.findIndex((budget) => budget.month === monthSelected && budget.year === yearSelected)
 
-        if (indexBudget) {
+        if (indexBudget >= 0) {
             budgetMovements.forEach((budget, index) => {
                 if (index === indexBudget) {
                     budget.isDefault = true
