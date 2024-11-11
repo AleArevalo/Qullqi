@@ -72,8 +72,34 @@ const Table = (props: Props) => {
     }
 
     const filterByText = (): Movement[] => {
+        const filterText = textFilter.toLowerCase()
+
         return arrayMovement.filter((item) => {
-            return item?.name?.toLowerCase().includes(textFilter.toLowerCase())
+            const nameMatch = item.name?.toLowerCase().includes(filterText)
+    
+            const amountMatch = item.amount !== undefined && item.amount.toString().replace(/\$|\./g, '').toLowerCase().includes(filterText)
+    
+            const dueDateMatch = item.dueDate?.toLowerCase().includes(filterText)
+    
+            let categoryMatch = false
+            if (item.category) {
+                const category = allCategories.find(({ id }) => id === Number(item.category))
+                categoryMatch = category?.name.toLowerCase().includes(filterText) ?? false
+            }
+    
+            let typeMatch = false
+            if (item.type) {
+                const type = allTypes.find(({ id }) => id === Number(item.type))
+                typeMatch = type?.name.toLowerCase().includes(filterText) ?? false
+            }
+    
+            let stateMatch = false
+            if (item.state) {
+                const state = allStates.find(({ id }) => id === Number(item.state))
+                stateMatch = state?.name.toLowerCase().includes(filterText) ?? false
+            }
+    
+            return nameMatch || amountMatch || categoryMatch || dueDateMatch || typeMatch || stateMatch
         })
     }
 
@@ -185,7 +211,11 @@ const Table = (props: Props) => {
                                 />
                             </td>
                             <td>
-                                <select className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]" value={ item.category } onChange={ (e) => handleChangeInput('category', e.target.value, index) }>
+                                <select
+                                    className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]"
+                                    value={ item.category }
+                                    onChange={ (e) => handleChangeInput('category', e.target.value, index) }
+                                >
                                     <option value="" disabled>Seleccionar</option>
                                     { categories.filter((category) => category.type === props.type).map((category) => (
                                         <option key={ category.id } value={ category.id }>{ category.name }</option>
