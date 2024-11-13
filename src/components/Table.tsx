@@ -25,8 +25,9 @@ const Table = (props: Props) => {
         [ props.values ]
     )
 
-    const handleChangeInput = (key: keyof Movement, value: string | number, index: number) => {
+    const handleChangeInput = (key: keyof Movement, value: string | number, id: string) => {
         value = key === 'amount' ? formatMoneyString(value as string) : value
+        const index = arrayMovement.findIndex((item) => item.id === id)
 
         const newValues = [...props.values];
         (newValues[index] as any)[key] = value
@@ -100,6 +101,11 @@ const Table = (props: Props) => {
             }
     
             return nameMatch || amountMatch || categoryMatch || dueDateMatch || typeMatch || stateMatch
+        }).map((item, index) => {
+            return {
+                ...item,
+                id: item.id ?? index
+            }
         })
     }
 
@@ -197,7 +203,7 @@ const Table = (props: Props) => {
                                     type="text"
                                     className="bg-white dark:bg-gray-800 text-black dark:text-white px-2 sm:px-6 w-full h-[50px]"
                                     value={ item.name}
-                                    onChange={ (e) => handleChangeInput('name', e.target.value, index) }
+                                    onChange={ (e) => handleChangeInput('name', e.target.value, item.id) }
                                     maxLength={ 30 }
                                 />
                             </td>
@@ -206,7 +212,7 @@ const Table = (props: Props) => {
                                     type="text"
                                     className="bg-white dark:bg-gray-800 text-black dark:text-white px-2 sm:px-6 w-full h-[50px]"
                                     value={ item.amount}
-                                    onChange={ (e) => handleChangeInput('amount', e.target.value, index) }
+                                    onChange={ (e) => handleChangeInput('amount', e.target.value, item.id) }
                                     maxLength={ 10 }
                                 />
                             </td>
@@ -214,7 +220,7 @@ const Table = (props: Props) => {
                                 <select
                                     className="bg-white dark:bg-gray-800 text-black text-center dark:text-white w-full h-[50px]"
                                     value={ item.category }
-                                    onChange={ (e) => handleChangeInput('category', e.target.value, index) }
+                                    onChange={ (e) => handleChangeInput('category', e.target.value, item.id) }
                                 >
                                     <option value="" disabled>Seleccionar</option>
                                     { categories.filter((category) => category.type === props.type).map((category) => (
@@ -227,14 +233,14 @@ const Table = (props: Props) => {
                                     type="date"
                                     className="bg-white dark:bg-gray-800 text-black dark:text-white text-center w-full h-[50px]"
                                     value={ item.dueDate }
-                                    onChange={ (e) => handleChangeInput('dueDate', e.target.value, index) }
+                                    onChange={ (e) => handleChangeInput('dueDate', e.target.value, item.id) }
                                 />
                             </td>
                             <td>
                                 <select
                                     className="bg-white dark:bg-gray-800 text-black text-center dark:text-white px-4 sm:px-6 w-full h-[50px]"
                                     value={ item.type }
-                                    onChange={ (e) => handleChangeInput('type', e.target.value, index) }
+                                    onChange={ (e) => handleChangeInput('type', e.target.value, item.id) }
                                 >
                                     <option value="" disabled>Seleccionar</option>
                                     { types.filter((category) => category.type === props.type).map((type) => (
@@ -246,7 +252,7 @@ const Table = (props: Props) => {
                                 <select
                                     className="bg-white dark:bg-gray-800 text-black text-center dark:text-white px-4 sm:px-6 w-full h-[50px]"
                                     value={ item.state }
-                                    onChange={ (e) => handleChangeInput('state', e.target.value, index) }
+                                    onChange={ (e) => handleChangeInput('state', e.target.value, item.id) }
                                 >
                                     <option value="" disabled>Seleccionar</option>
                                     { states.filter((state) => state.type === props.type).map((state) => (
@@ -256,14 +262,16 @@ const Table = (props: Props) => {
                             </td>
                         </tr>
                     ))}
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
-                        <td colSpan={ 7 } onClick={ handleNewItem }>
-                            <div className="flex gap-2 px-6 py-4">
-                                <IconPlus width={ 20 } height={ 20 } />
-                                Nuevo elemento
-                            </div>
-                        </td>
-                    </tr>
+                    { textFilter.length === 0 &&
+                        <tr className="bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
+                            <td colSpan={ 7 } onClick={ handleNewItem }>
+                                <div className="flex gap-2 px-6 py-4">
+                                    <IconPlus width={ 20 } height={ 20 } />
+                                    Nuevo elemento
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
