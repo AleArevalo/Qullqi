@@ -72,8 +72,7 @@ export const getAllBudgets = async (idUser: string): Promise<Response> => {
         .from('Budget')
         .select("*")
         .eq('id_user', idUser)
-        .order('month')
-        .order('year')
+        .order('created_at', { ascending: false })
 
     if (error) {
         return {
